@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fiberbesiktning">
+  <meta name="application-name" content="Fiberbesiktning">
+  <meta name="theme-color" content="#123529">
+  <title>Fiberbesiktning</title>
+  <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAFc0lEQVR4nO3dS04rMRBG4Q66K2DKClgAYyQWjsSYBbACpmyBO0BBTZLutttlV9Xf5xtf8rBPCpPXPU1B3D89fnvfBuz39f5x8r4N0zRNbjeCgLV5BT70Son4mEbG3f2KiBhzvePuduGEjDW9wja/UEJGDeuw7ywvjJhRy7oZk0cHIcOCxbRuntDEDCsWLTUFTcyw1trUrhFPyBhhzxGkekITM0bZ01pV0MSM0WqbKw6amOGlpj3T56EBb0VBM53hrbTBzaCJGVGUtLgaNDEjmq0mOUNDymLQTGdEtdbmzaCJGdEtNcqRA1KugmY6I4tbrTKhIeVP0ExnZHPZLBMaUggaUn6D5riBrObtMqEhhaAh5W6aOG4gv3PDTGhIIWhIIWhIOXF+hhImNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKT8874Bqj5f3zb/zcPL84Bbcix80YyhkoiXELcNgm7UEvES4t6PM3SDHjH3vNwjYELvMDI4pnUdJnSl0dOTaV2HoCt4xUXU5Qi6kHdU3tefBWfoAntjWjv/9rhMEPSm2vD2BDfiOo6CVwqNtER2/lmOFe04Q68oDcxqYpZeDuEv48ixoDZmi8hqL4ujxzWOHI0spyWTtx1HDkjhyDGTeUJy/Phx+KAzR7zkyHEfNmjFkC8dMexDBX2EiJccJe5DBH3kkC+phy0dNCEvUw1bMmhCLqcWtlTQhLyfStgyL6wQcxuV9Us/oVU2IpLM0zr1hCbmPjKva8qgP1/fwi1661SLNhUjrnGJdEeOCIts/dGqHh/VshTtwbYm1YSOsLlbajc/QywZ1v0sxYSOuKBbIVp8WWPG++0t/Bv8R23q5Ua1Xu/ap096fWRrxFp9vr6Fjjr0hB6xQUub4/11uC3X77lu3sKeoXtvysPLc/OmRP2yRov7tiXicWiagk7onotVs9EeH1btcZ1R1nOEcEH3Wvy9Cz8y6t7XFW1tewh15Mi84C0vRIx6EaPXOkQ6foSZ0JG/CV/xu+0ir3eLEEFbL26PhY0whTLcL++o3Y8cWRbUe6Oy3C/vB7570JZ6R+cVter96sE1aMtH86hNGb35Ge+X55R2O0Nb3WnP6aL6/G7mvXGZ0JkXbMT1q9wvj0kd/s1JS7w3/Wx+O5T+J9mHl2f3P/D2GH7ksPwe5ci839xkJdt+DQ062+LgR6Z9k3raDhgWdKZHOf4a+carVmkmNDH7yrL+Q4K2+jgTfEX9QMRcmgkNlOgeNNNZS/QpHXpCE3NMkfela9AZX2lCfz27CDuhI08BxN2fsEEDewx56bv2V0zURz+u1eztiH0d8m47q3ekISfZNyfNLYXNdM6n5/f31XJ7PzRTW5P3QArxNQaAFZ7lgBSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChpS7r/ePk/eNACx8vX+cmNCQQtCQQtCQcjdNP2cP7xsCtDg3zISGFIKGlN+gOXYgq3m7TGhIIWhI+RM0xw5kc9ksExpSroJmSiOLW60yoSHlZtBMaUS31OjihCZqRLXWJkcOSFkNmimNaLaa3JzQRI0oSlosOnIQNbyVNsgZGlKKg2ZKw0tNe1UTmqgxWm1z1UcOosYoe1privP+6fG75eeBW1qGZtMfhUxrWGttqvlZDqKGFYuWTGPkCII9LIei6fPQTGvUsm6mW4BMa6zpNfy6T1TCxlzv3+JDjwjEfUwjj6JuZ17i1ub191SYP+IIPLcoTwj8B+7QNoISVMrVAAAAAElFTkSuQmCC">
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAFc0lEQVR4nO3dS04rMRBG4Q66K2DKClgAYyQWjsSYBbACpmyBO0BBTZLutttlV9Xf5xtf8rBPCpPXPU1B3D89fnvfBuz39f5x8r4N0zRNbjeCgLV5BT70Son4mEbG3f2KiBhzvePuduGEjDW9wja/UEJGDeuw7ywvjJhRy7oZk0cHIcOCxbRuntDEDCsWLTUFTcyw1trUrhFPyBhhzxGkekITM0bZ01pV0MSM0WqbKw6amOGlpj3T56EBb0VBM53hrbTBzaCJGVGUtLgaNDEjmq0mOUNDymLQTGdEtdbmzaCJGdEtNcqRA1KugmY6I4tbrTKhIeVP0ExnZHPZLBMaUggaUn6D5riBrObtMqEhhaAh5W6aOG4gv3PDTGhIIWhIIWhIOXF+hhImNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKQQNKT8874Bqj5f3zb/zcPL84Bbcix80YyhkoiXELcNgm7UEvES4t6PM3SDHjH3vNwjYELvMDI4pnUdJnSl0dOTaV2HoCt4xUXU5Qi6kHdU3tefBWfoAntjWjv/9rhMEPSm2vD2BDfiOo6CVwqNtER2/lmOFe04Q68oDcxqYpZeDuEv48ixoDZmi8hqL4ujxzWOHI0spyWTtx1HDkjhyDGTeUJy/Phx+KAzR7zkyHEfNmjFkC8dMexDBX2EiJccJe5DBH3kkC+phy0dNCEvUw1bMmhCLqcWtlTQhLyfStgyL6wQcxuV9Us/oVU2IpLM0zr1hCbmPjKva8qgP1/fwi1661SLNhUjrnGJdEeOCIts/dGqHh/VshTtwbYm1YSOsLlbajc/QywZ1v0sxYSOuKBbIVp8WWPG++0t/Bv8R23q5Ua1Xu/ap096fWRrxFp9vr6Fjjr0hB6xQUub4/11uC3X77lu3sKeoXtvysPLc/OmRP2yRov7tiXicWiagk7onotVs9EeH1btcZ1R1nOEcEH3Wvy9Cz8y6t7XFW1tewh15Mi84C0vRIx6EaPXOkQ6foSZ0JG/CV/xu+0ir3eLEEFbL26PhY0whTLcL++o3Y8cWRbUe6Oy3C/vB7570JZ6R+cVter96sE1aMtH86hNGb35Ge+X55R2O0Nb3WnP6aL6/G7mvXGZ0JkXbMT1q9wvj0kd/s1JS7w3/Wx+O5T+J9mHl2f3P/D2GH7ksPwe5ci839xkJdt+DQ062+LgR6Z9k3raDhgWdKZHOf4a+carVmkmNDH7yrL+Q4K2+jgTfEX9QMRcmgkNlOgeNNNZS/QpHXpCE3NMkfela9AZX2lCfz27CDuhI08BxN2fsEEDewx56bv2V0zURz+u1eztiH0d8m47q3ekISfZNyfNLYXNdM6n5/f31XJ7PzRTW5P3QArxNQaAFZ7lgBSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChpS7r/ePk/eNACx8vX+cmNCQQtCQQtCQcjdNP2cP7xsCtDg3zISGFIKGlN+gOXYgq3m7TGhIIWhI+RM0xw5kc9ksExpSroJmSiOLW60yoSHlZtBMaUS31OjihCZqRLXWJkcOSFkNmimNaLaa3JzQRI0oSlosOnIQNbyVNsgZGlKKg2ZKw0tNe1UTmqgxWm1z1UcOosYoe1privP+6fG75eeBW1qGZtMfhUxrWGttqvlZDqKGFYuWTGPkCII9LIei6fPQTGvUsm6mW4BMa6zpNfy6T1TCxlzv3+JDjwjEfUwjj6JuZ17i1ub191SYP+IIPLcoTwj8B+7QNoISVMrVAAAAAElFTkSuQmCC">
+  <style>
+:root {
+  --bg: #f3efe6;
+  --paper: #fffcf6;
+  --ink: #141714;
+  --muted: #3a413c;
+  --faint: #5c635e;
+  --line: #c5bfb2;
+  --line-strong: #8e887b;
+  --brand: #123529;
+  --brand-2: #1c5540;
+  --ok: #0a4f2c;
+  --ok-bg: #d5eedf;
+  --bad: #7a1616;
+  --bad-bg: #f5d4d4;
+  --part: #0a3b5c;
+  --part-bg: #d5e6f2;
+  --open: #6a6e68;
+  --shadow: 0 10px 40px rgba(20, 23, 20, 0.28);
+  --tap: 52px;
+  --radius: 16px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  overflow: hidden;
+}
+button, input, textarea, select, label { font: inherit; color: inherit; }
+button { appearance: none; border: 0; background: none; cursor: pointer; }
+img { max-width: 100%; display: block; }
+
+.app {
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+.top { flex: 0 0 auto; padding: 6px 10px 8px; background: var(--brand); color: #f7f3ea; }
+.banner { font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.85; font-weight: 650; }
+.top-row { display: flex; align-items: center; gap: 6px; min-height: 44px; }
+.top h1 { font-size: clamp(15px, 4.4vw, 17px); margin: 0; font-weight: 700; line-height: 1.2; flex: 1; min-width: 0; }
+.sub { font-size: 12px; opacity: 0.88; margin-top: 2px; }
+.icon-btn {
+  min-width: var(--tap); min-height: var(--tap); border-radius: 12px;
+  color: #f7f3ea; font-weight: 700; font-size: 15px; padding: 0 8px;
+}
+.icon-btn:active { background: rgba(255,255,255,0.12); }
+.icon-btn.ghost { border: 1px solid rgba(247,243,234,0.35); font-size: 13px; }
+
+.scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; padding: 12px 14px 24px; }
+h2 { font-size: clamp(18px, 5.5vw, 22px); margin: 0 0 8px; }
+p { margin: 0 0 12px; line-height: 1.45; }
+.lead { color: var(--muted); font-size: 15px; }
+
+.card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; margin: 0 0 12px; width: 100%; text-align: left;
+}
+.card.tap { min-height: 72px; }
+.card.tap:active { background: #f3eee4; }
+.card-title { font-weight: 700; font-size: 17px; margin: 0 0 4px; }
+.card-meta { color: var(--faint); font-size: 13px; line-height: 1.35; }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.chev { color: var(--faint); font-weight: 700; font-size: 22px; }
+
+.btn {
+  display: flex; align-items: center; justify-content: center; width: 100%;
+  min-height: var(--tap); border-radius: 14px; padding: 12px 14px;
+  font-weight: 700; font-size: 16px; border: 1px solid transparent;
+}
+.btn-primary { background: var(--brand); color: #f7f3ea; }
+.btn-primary:active { background: #0c271e; }
+.btn-secondary { background: var(--paper); border-color: var(--line-strong); }
+.btn-secondary:active { background: #efeae0; }
+.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.btn-row.one { grid-template-columns: 1fr; }
+
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 999px;
+}
+.badge.open { background: #e2e4e0; color: var(--open); }
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.bad { background: var(--bad-bg); color: var(--bad); }
+.badge.part { background: var(--part-bg); color: var(--part); }
+
+/* Map */
+.map-view { flex: 1; display: flex; flex-direction: column; min-height: 0; min-width: 0; position: relative; }
+.map-wrap { flex: 1; min-height: 0; min-width: 0; position: relative; overflow: hidden; background: #d7e0c8; touch-action: none; }
+.map-canvas { width: 100%; height: 100%; display: block; max-width: 100%; max-height: 100%; }
+.map-tools {
+  position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 6px; z-index: 3;
+}
+.map-tools button {
+  width: 44px; height: 44px; border-radius: 12px; background: rgba(255,252,246,0.94);
+  border: 1px solid var(--line); font-weight: 800; font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+.map-tools button:active { background: #efeae0; }
+.map-banner {
+  position: absolute; left: 10px; right: 64px; top: 10px; z-index: 3;
+  background: rgba(18,53,41,0.94); color: #f7f3ea; border-radius: 12px; padding: 10px 12px;
+  font-size: 14px; font-weight: 650; line-height: 1.3;
+}
+.map-legend {
+  position: absolute; left: 10px; bottom: 10px; z-index: 3;
+  background: rgba(255,252,246,0.94); border-radius: 12px; padding: 7px 10px;
+  font-size: 11px; display: flex; gap: 8px; align-items: center; color: var(--muted);
+  border: 1px solid var(--line);
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot.open { background: var(--open); }
+.dot.ok { background: var(--ok); }
+.dot.bad { background: var(--bad); }
+.gps-chip {
+  position: absolute; left: 8px; top: 8px; z-index: 3;
+  background: rgba(255,252,246,0.94); border: 1px solid var(--line); border-radius: 12px;
+  padding: 7px 10px; font-size: 12px; font-weight: 650; color: var(--muted);
+  max-width: calc(100% - 62px);
+}
+.gps-bar {
+  position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 4;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.gps-bar button {
+  flex: 1 1 auto;
+  min-height: 44px; padding: 8px 10px; border-radius: 12px;
+  background: rgba(255,252,246,0.96); border: 1px solid var(--line);
+  font-weight: 700; font-size: 13px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+.gps-bar button.on { background: var(--brand); color: #f7f3ea; border-color: var(--brand); }
+.gps-bar button.ghost { font-weight: 650; font-size: 12px; }
+.hint-banner, .confirm-card {
+  position: absolute; left: 8px; right: 8px; z-index: 5;
+  background: var(--paper); border-radius: 14px; padding: 12px 14px;
+  box-shadow: 0 8px 28px rgba(20,23,20,.22); border: 1px solid var(--line);
+}
+.hint-banner { top: 8px; }
+.confirm-card { bottom: 100px; }
+.hint-banner p, .confirm-card p { margin: 0 0 10px; font-size: 14px; line-height: 1.4; }
+.choice {
+  display: block; width: 100%; text-align: left;
+  min-height: 56px; border-radius: 14px; border: 1px solid var(--line-strong);
+  background: var(--paper); padding: 12px 14px; margin: 0 0 8px; font-weight: 700;
+}
+.choice small { display: block; font-weight: 500; font-size: 13px; color: var(--faint); margin-top: 2px; }
+.choice.on { background: var(--brand); color: #f7f3ea; border-color: var(--brand); }
+.choice.on small { color: rgba(247,243,234,0.85); }
+.sub-btn {
+  display: inline; background: none; color: inherit; opacity: 0.92;
+  font-size: 12px; font-weight: 650; padding: 0; min-height: 0; min-width: 0;
+  text-align: left; text-decoration: underline; text-underline-offset: 2px;
+}
+
+.dock {
+  flex: 0 0 auto; padding: 8px 12px 10px; background: var(--bg);
+  border-top: 1px solid var(--line); z-index: 8;
+}
+.fab {
+  width: 100%; min-height: var(--tap); border-radius: 16px;
+  background: var(--brand); color: #f7f3ea; font-weight: 800;
+  font-size: clamp(16px, 4.5vw, 18px);
+  box-shadow: 0 8px 22px rgba(18,53,41,.28);
+}
+.fab:active { background: #0c271e; }
+.fab span { font-size: 24px; margin-right: 8px; line-height: 1; }
+
+.sheet {
+  flex: 0 1 auto;
+  max-height: calc(100% - 76px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -8px 28px rgba(20,23,20,.14);
+  padding: 8px 14px 12px;
+  z-index: 7;
+  min-height: 0;
+  min-width: 0;
+}
+.sheet.handle { width: 42px; height: 4px; background: var(--line-strong); border-radius: 4px; margin: 4px auto 10px; }
+.sheet h2 { font-size: 18px; margin: 0 0 2px; }
+.sheet .meta { color: var(--faint); font-size: 13px; margin: 0 0 12px; }
+.check-item { padding: 10px 0; border-top: 1px solid var(--line); }
+.check-item p { margin: 0 0 8px; font-weight: 650; font-size: 15px; }
+.seg-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+.seg-3 button, .cats button, .chip {
+  min-height: 44px; border-radius: 10px; border: 1px solid var(--line-strong);
+  background: var(--paper); font-weight: 700; font-size: 13px; padding: 6px 8px;
+}
+.seg-3 button.on.ok { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+.seg-3 button.on.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.seg-3 button.on.na { background: #e2e4e0; border-color: var(--open); color: var(--open); }
+.cats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 12px; }
+.cats button.on { background: var(--brand-2); color: #f7f3ea; border-color: var(--brand-2); }
+.field { margin: 0 0 12px; }
+.field label { display: block; font-size: 13px; font-weight: 700; margin: 0 0 6px; }
+.field textarea, .field input[type="text"] {
+  width: 100%; border: 1px solid var(--line-strong); border-radius: 12px;
+  padding: 10px 12px; background: #fff; min-height: 74px; resize: vertical;
+}
+.photo-box {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 120px; border: 1.5px dashed var(--line-strong); border-radius: 14px;
+  background: #fff; font-weight: 700; color: var(--brand); text-align: center; cursor: pointer;
+  overflow: hidden; position: relative;
+}
+.photo-box input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.photo-box img { width: 100%; height: 140px; object-fit: cover; }
+.photo-box .hint { padding: 16px; font-size: 15px; }
+.toast {
+  position: absolute; left: 16px; right: 16px; bottom: 88px; z-index: 30;
+  background: var(--brand); color: #f7f3ea; padding: 12px 14px; border-radius: 12px;
+  font-weight: 650; text-align: center; pointer-events: none;
+}
+.list-item { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--line); width: 100%; text-align: left; }
+.list-item img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; flex: 0 0 auto; }
+.list-thumb { width: 56px; height: 56px; border-radius: 8px; background: #e8e4da; flex: 0 0 auto; }
+.settings { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+.settings button { min-height: 40px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--paper); font-weight: 650; font-size: 13px; }
+.settings button.on { background: var(--brand); color: #f7f3ea; border-color: var(--brand); }
+.protocol { background: #fff; padding: 16px; font-size: 13px; }
+.protocol h2 { font-size: 18px; }
+.protocol table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; }
+.protocol th, .protocol td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+.protocol th { background: #f3efe6; }
+.protocol img { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; }
+@media (max-height: 560px) {
+  :root { --tap: 44px; }
+  .top { padding: 4px 8px 6px; }
+  .top-row { min-height: 40px; }
+  .scroll { padding: 10px 12px 16px; }
+  .lead { font-size: 14px; }
+  .map-tools button { width: 40px; height: 40px; }
+  .dock { padding: 6px 10px 8px; }
+}
+@media print {
+  body { background: #fff; overflow: auto; }
+  .app { position: static; inset: auto; height: auto; overflow: visible; padding: 0; }
+  .top, .dock, .no-print { display: none !important; }
+  .scroll { overflow: visible; }
+}
+  </style>
+</head>
+<body>
+  <div id="app" class="app"></div>
+  <script>
+const STORAGE_KEY = "fiberbesiktning-v2";
+const MAP = {
+  w: 1000,
+  h: 340,
+  chMax: 850,
+  fiberOff: 16,
+  note: "Lokalt ritningsnät (exempel), längdmätning 0/000–0/850."
+};
+const ROAD_PTS = [
+  [36, 214], [150, 198], [290, 148], [450, 158], [620, 210], [790, 186], [968, 164]
+];
+const HOUSES = [
+  { ch: 150, label: "12", off: -48 },
+  { ch: 230, label: "14", off: -50 },
+  { ch: 520, label: "28", off: -52 },
+  { ch: 700, label: "36", off: 52 }
+];
+const BASE_OBJECTS = [
+  { id: "NOD-A", type: "nod", name: "Nod A, start Björkvägen", ch: 0 },
+  { id: "SK-01", type: "skap", name: "Markskåp SK-01", ch: 80 },
+  { id: "FA-12", type: "fastighet", name: "Fastighetsanslutning 12", ch: 150 },
+  { id: "BR-03", type: "brunn", name: "Brunn BR-03", ch: 260 },
+  { id: "SK-02", type: "skap", name: "Markskåp SK-02", ch: 410 },
+  { id: "FA-28", type: "fastighet", name: "Fastighetsanslutning 28", ch: 520 },
+  { id: "BR-05", type: "brunn", name: "Brunn BR-05", ch: 630 },
+  { id: "SK-04", type: "skap", name: "Markskåp SK-04", ch: 760 }
+];
+const PROJECTS = [
+  { id: "bredvik", name: "Exempelprojekt Bredvik", place: "Björkvägen, Bredvik", meta: "Etapp 2 · 0/250–0/550" },
+  { id: "hogland", name: "Exempelprojekt Högland södra", place: "Högland", meta: "Hela sträckan · 0/000–0/850" }
+];
+const CHECK = {
+  brunn: [
+    { id: "lucka", title: "Lucka och lås" },
+    { id: "lage", title: "Placering och sättning" },
+    { id: "tatning", title: "Tätning och inredning" }
+  ],
+  skap: [
+    { id: "placering", title: "Placering" },
+    { id: "las", title: "Lås och dörr" },
+    { id: "inredning", title: "Inredning och märkning" }
+  ],
+  nod: [
+    { id: "tilltrade", title: "Tillträde och lås" },
+    { id: "ordning", title: "Ordning i noden" },
+    { id: "markning", title: "Märkning" }
+  ],
+  stracka: [
+    { id: "ater", title: "Återställning av yta" },
+    { id: "skador", title: "Synliga skador" },
+    { id: "markering", title: "Markering längs sträckan" }
+  ],
+  fastighet: [
+    { id: "genomforing", title: "Genomföring och tätning" },
+    { id: "markning", title: "Märkning" }
+  ]
+};
+const CATS = [
+  { id: "ater", name: "Återställning" },
+  { id: "infart", name: "Infart" },
+  { id: "schakt", name: "Schakt" },
+  { id: "ovrigt", name: "Övrigt" }
+];
+const TYPER = [
+  { id: "norm", name: "Normerande" },
+  { id: "for", name: "Förbesiktning" },
+  { id: "slut", name: "Slutbesiktning" }
+];
+const ETAPPER = [
+  { id: "e1", name: "Etapp 1", stretch: "0/000–0/250" },
+  { id: "e2", name: "Etapp 2", stretch: "0/250–0/550" },
+  { id: "e3", name: "Etapp 3", stretch: "0/550–0/850" },
+  { id: "alla", name: "Hela sträckan", stretch: "0/000–0/850" }
+];
+const OMRADEN = [
+  { id: "fiber", name: "Fiberarbeten", hint: "Skåp, brunnar, noder och anslutningar" },
+  { id: "schakt", name: "Schakt och förläggning", hint: "Återställning och schakt längs sträckan" },
+  { id: "bada", name: "Båda områdena", hint: "Fiberarbeten samt schakt och förläggning" }
+];
+const HINT_KEY = "fiberbesiktning-hint-v1";
+
+function pathLens(pts) {
+  const lens = [0];
+  let acc = 0;
+  for (let i = 1; i < pts.length; i++) {
+    acc += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    lens.push(acc);
+  }
+  return lens;
+}
+const ROAD_LENS = pathLens(ROAD_PTS);
+const ROAD_LEN = ROAD_LENS[ROAD_LENS.length - 1];
+
+function atDist(pts, lens, dist) {
+  const total = lens[lens.length - 1];
+  const d = Math.max(0, Math.min(total, dist));
+  let i = 1;
+  while (i < lens.length && lens[i] < d) i += 1;
+  const d0 = lens[i - 1], d1 = lens[i];
+  const t = d1 === d0 ? 0 : (d - d0) / (d1 - d0);
+  const x = pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * t;
+  const y = pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * t;
+  const ang = Math.atan2(pts[i][1] - pts[i - 1][1], pts[i][0] - pts[i - 1][0]);
+  return { x: x, y: y, ang: ang };
+}
+function chToDist(ch) { return (ch / MAP.chMax) * ROAD_LEN; }
+function atCh(ch) { return atDist(ROAD_PTS, ROAD_LENS, chToDist(ch)); }
+function offsetPt(pt, off) {
+  return { x: pt.x + Math.cos(pt.ang + Math.PI / 2) * off, y: pt.y + Math.sin(pt.ang + Math.PI / 2) * off, ang: pt.ang };
+}
+function fiberAt(ch) { return offsetPt(atCh(ch), MAP.fiberOff); }
+function fmtCh(ch) {
+  const n = Math.max(0, Math.round(ch));
+  const km = Math.floor(n / 1000);
+  let rest = String(n % 1000);
+  while (rest.length < 3) rest = "0" + rest;
+  return km + "/" + rest;
+}
+function sampleRoad(off, stepCh) {
+  const pts = [];
+  for (let ch = 0; ch <= MAP.chMax; ch += (stepCh || 8)) {
+    const p = off ? fiberAt(ch) : atCh(ch);
+    pts.push([p.x, p.y]);
+  }
+  const end = off ? fiberAt(MAP.chMax) : atCh(MAP.chMax);
+  pts.push([end.x, end.y]);
+  return pts;
+}
+function polyPoints(pts) { return pts.map(function (p) { return p[0] + "," + p[1]; }).join(" "); }
+function chFromXY(x, y) {
+  let best = 0, bestD = Infinity;
+  for (let ch = 0; ch <= MAP.chMax; ch += 2) {
+    const p = fiberAt(ch);
+    const d = Math.hypot(p.x - x, p.y - y);
+    if (d < bestD) { bestD = d; best = ch; }
+  }
+  return { ch: best, dist: bestD, p: fiberAt(best) };
+}
+
+function placed(o) {
+  const p = fiberAt(o.ch);
+  return Object.assign({}, o, { x: p.x, y: p.y });
+}
+function pointObjects() { return BASE_OBJECTS.map(placed); }
+function stretches() {
+  const pts = pointObjects();
+  const out = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1];
+    out.push({
+      id: "ST-" + a.id + "-" + b.id,
+      type: "stracka",
+      name: "Mellan " + a.id + " och " + b.id,
+      fromId: a.id,
+      toId: b.id,
+      from: a.ch,
+      to: b.ch,
+      ch: (a.ch + b.ch) / 2,
+      x: fiberAt((a.ch + b.ch) / 2).x,
+      y: fiberAt((a.ch + b.ch) / 2).y
+    });
+  }
+  return out;
+}
+function allTargets() { return pointObjects().concat(stretches()); }
+function objById(id) {
+  return allTargets().find(function (o) { return o.id === id; });
+}
+function typeName(t) {
+  return { brunn: "Brunn", skap: "Markskåp", nod: "Nod", fastighet: "Fastighetsanslutning", stracka: "Sträcka" }[t] || t;
+}
+function flanking(ch) {
+  const pts = pointObjects();
+  if (ch <= pts[0].ch) return { from: pts[0], to: pts[1] };
+  if (ch >= pts[pts.length - 1].ch) return { from: pts[pts.length - 2], to: pts[pts.length - 1] };
+  for (let i = 0; i < pts.length - 1; i++) {
+    if (ch >= pts[i].ch && ch <= pts[i + 1].ch) return { from: pts[i], to: pts[i + 1] };
+  }
+  return { from: pts[0], to: pts[1] };
+}
+function project() {
+  return PROJECTS.find(function (p) { return p.id === state.projectId; }) || PROJECTS[0];
+}
+function typName() {
+  const t = TYPER.find(function (x) { return x.id === state.typ; });
+  return t ? t.name : "";
+}
+function omradeName() {
+  const o = OMRADEN.find(function (x) { return x.id === (state.omrade || "bada"); });
+  return o ? o.name : "Båda områdena";
+}
+function omradeShort() {
+  return { fiber: "Fiber", schakt: "Schakt", bada: "Båda" }[state.omrade] || "Båda";
+}
+function typSub() {
+  const e = ETAPPER.find(function (x) { return x.id === state.etapp; });
+  return typName() + " · " + omradeShort() + (e ? " · " + e.name : "");
+}
+function hintSeen() {
+  try { return localStorage.getItem(HINT_KEY) === "1"; } catch (e) { return false; }
+}
+function metersToMap(m) {
+  return (Number(m) / MAP.chMax) * ROAD_LEN;
+}
+function hitRadiusMap() {
+  return 22 / Math.max(state.scale || 1, 0.35);
+}
+function etappName() {
+  const e = ETAPPER.find(function (x) { return x.id === state.etapp; });
+  return e ? e.name + " · " + e.stretch : "";
+}
+
+const state = {
+  view: "start",
+  projectId: null,
+  typ: "for",
+  etapp: "e2",
+  omrade: "bada",
+  scale: 1.8,
+  tx: 0,
+  ty: 0,
+  fitted: false,
+  gpsCh: 80,
+  gpsAccM: 8,
+  gpsSource: "demo",
+  walking: false,
+  follow: true,
+  selected: null,
+  sheet: null,
+  placeMode: false,
+  confirmPin: null,
+  draft: null,
+  answers: {},
+  remarks: [],
+  toast: null,
+  toastTimer: null
+};
+
+function loadStore() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+  } catch (e) { return {}; }
+}
+function saveProject() {
+  if (!state.projectId) return;
+  const all = loadStore();
+  all[state.projectId] = {
+    typ: state.typ,
+    etapp: state.etapp,
+    omrade: state.omrade,
+    answers: state.answers,
+    remarks: state.remarks
+  };
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(all)); } catch (e) {}
+}
+function openProject(id) {
+  state.projectId = id;
+  const saved = loadStore()[id] || {};
+  const defs = id === "hogland" ? { typ: "for", etapp: "alla" } : { typ: "for", etapp: "e2" };
+  state.typ = saved.typ || defs.typ;
+  state.etapp = saved.etapp || defs.etapp;
+  state.omrade = saved.omrade || "bada";
+  state.answers = saved.answers || {};
+  state.remarks = saved.remarks || [];
+  state.selected = null;
+  state.sheet = null;
+  state.placeMode = false;
+  state.confirmPin = null;
+  state.draft = null;
+  state.gpsCh = 80;
+  state.gpsAccM = 8;
+  state.gpsSource = "demo";
+  state.walking = false;
+  state.follow = true;
+  state.fitted = false;
+  state.view = "setup";
+  render();
+}
+
+function openMap() {
+  state.view = "map";
+  state.sheet = null;
+  state.confirmPin = null;
+  state.fitted = false;
+  saveProject();
+  render();
+  requestAnimationFrame(function () { fitTo(state.gpsCh, 1.7); render(); });
+}
+
+function objectInScope(type) {
+  const omr = state.omrade || "bada";
+  if (omr === "fiber") return type !== "stracka";
+  if (omr === "schakt") return type === "stracka" || type === "brunn" || type === "skap";
+  return true;
+}
+function itemsFor(type) {
+  if (!objectInScope(type)) return [];
+  return CHECK[type] || CHECK.stracka;
+}
+
+function targetStatus(id) {
+  const obj = objById(id);
+  if (!obj) return { kind: "open", label: "Ej besiktat" };
+  const list = itemsFor(obj.type);
+  const bag = state.answers[id] || {};
+  let done = 0, bad = 0;
+  list.forEach(function (it) {
+    const o = bag[it.id];
+    if (o) done += 1;
+    if (o === "bad") bad += 1;
+  });
+  const remarks = remarksFor(id);
+  const remarkBad = remarks.length;
+  if (bad || remarkBad) return { kind: "bad", label: "Anmärkning", done: done, total: list.length, remarks: remarkBad };
+  if (done && done === list.length) return { kind: "ok", label: "Klart", done: done, total: list.length, remarks: 0 };
+  if (done) return { kind: "part", label: "Påbörjad", done: done, total: list.length, remarks: 0 };
+  return { kind: "open", label: "Ej besiktat", done: done, total: list.length, remarks: 0 };
+}
+function remarksFor(id) {
+  const obj = objById(id);
+  return state.remarks.filter(function (r) {
+    if (r.targetId === id) return true;
+    if (obj && obj.type === "stracka") {
+      return r.fromId === obj.fromId && r.toId === obj.toId;
+    }
+    return false;
+  });
+}
+function statusColor(kind) {
+  return { ok: "#0a4f2c", bad: "#7a1616", part: "#0a3b5c", open: "#6a6e68" }[kind] || "#6a6e68";
+}
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+function toast(msg) {
+  state.toast = msg;
+  if (state.toastTimer) clearTimeout(state.toastTimer);
+  state.toastTimer = setTimeout(function () { state.toast = null; render(); }, 2200);
+  render();
+}
+
+function fitTo(ch, scale) {
+  const wrap = document.querySelector(".map-wrap");
+  if (!wrap) return;
+  const p = fiberAt(ch);
+  state.scale = scale || state.scale || 1.9;
+  state.tx = wrap.clientWidth / 2 - p.x * state.scale;
+  state.ty = wrap.clientHeight / 2 - p.y * state.scale;
+  state.fitted = true;
+}
+function keepGpsInView() {
+  if (!state.follow) return;
+  const wrap = document.querySelector(".map-wrap");
+  if (!wrap) return;
+  const p = fiberAt(state.gpsCh);
+  const sx = p.x * state.scale + state.tx;
+  const sy = p.y * state.scale + state.ty;
+  const m = 70;
+  let dx = 0, dy = 0;
+  if (sx < m) dx = m - sx;
+  if (sx > wrap.clientWidth - m) dx = wrap.clientWidth - m - sx;
+  if (sy < m) dy = m - sy;
+  if (sy > wrap.clientHeight - m) dy = wrap.clientHeight - m - sy;
+  state.tx += dx;
+  state.ty += dy;
+}
+
+function objectMark(o, col) {
+  const x = o.x, y = o.y;
+  const hit = hitRadiusMap();
+  let shape = "";
+  if (o.type === "brunn") {
+    shape = '<circle cx="' + x + '" cy="' + y + '" r="14" fill="#fff" stroke="' + col + '" stroke-width="4"/>' +
+      '<circle cx="' + x + '" cy="' + y + '" r="6" fill="' + col + '"/>';
+  } else if (o.type === "skap") {
+    shape = '<rect x="' + (x - 13) + '" y="' + (y - 13) + '" width="26" height="26" rx="4" fill="#fff" stroke="' + col + '" stroke-width="4"/>' +
+      '<rect x="' + (x - 5) + '" y="' + (y - 5) + '" width="10" height="10" rx="1" fill="' + col + '"/>';
+  } else if (o.type === "nod") {
+    const r = 16;
+    const pts = [];
+    for (let i = 0; i < 6; i++) {
+      const a = Math.PI / 6 + i * Math.PI / 3;
+      pts.push((x + Math.cos(a) * r) + "," + (y + Math.sin(a) * r));
+    }
+    shape = '<polygon points="' + pts.join(" ") + '" fill="#fff" stroke="' + col + '" stroke-width="4"/>' +
+      '<circle cx="' + x + '" cy="' + y + '" r="5" fill="' + col + '"/>';
+  } else {
+    shape = '<polygon points="' + x + "," + (y - 13) + " " + (x + 13) + "," + y + " " + x + "," + (y + 13) + " " + (x - 13) + "," + y + '" fill="#fff" stroke="' + col + '" stroke-width="3.5"/>';
+  }
+  const side = (o.ch % 200 < 100) ? -26 : 24;
+  const label = '<text x="' + x + '" y="' + (y + side) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#141714">' + esc(o.id) + "</text>";
+  return '<g class="hit" data-act="select" data-id="' + esc(o.id) + '" style="cursor:pointer">' +
+    '<circle cx="' + x + '" cy="' + y + '" r="' + hit + '" fill="transparent"/>' + shape + label + "</g>";
+}
+
+function stretchPath(st) {
+  const pts = [];
+  for (let ch = st.from; ch <= st.to; ch += 6) {
+    const p = fiberAt(ch);
+    pts.push([p.x, p.y]);
+  }
+  pts.push([fiberAt(st.to).x, fiberAt(st.to).y]);
+  return pts;
+}
+
+function pinMark(r) {
+  const x = r.x, y = r.y;
+  return '<g class="hit" data-act="select-remark" data-id="' + esc(r.id) + '" style="cursor:pointer">' +
+    '<circle cx="' + x + '" cy="' + y + '" r="22" fill="transparent"/>' +
+    '<path d="M' + x + " " + (y - 26) + ' c8 0 14 6 14 14 0 10-14 22-14 22s-14-12-14-22c0-8 6-14 14-14z" fill="#7a1616" stroke="#fff" stroke-width="2"/>' +
+    '<circle cx="' + x + '" cy="' + (y - 13) + '" r="4.5" fill="#fff"/>' +
+    "</g>";
+}
+
+function mapSvg() {
+  const road = sampleRoad(0, 8);
+  const houses = HOUSES.map(function (h) {
+    const p = offsetPt(atCh(h.ch), h.off);
+    const w = 22, ht = 16;
+    return '<g>' +
+      '<rect x="' + (p.x - w / 2) + '" y="' + (p.y - ht / 2) + '" width="' + w + '" height="' + ht + '" rx="2" fill="#efe6d4" stroke="#8a7c64" stroke-width="1.2"/>' +
+      '<text x="' + p.x + '" y="' + (p.y + 4) + '" text-anchor="middle" font-size="9" fill="#4a4438">' + esc(h.label) + "</text></g>";
+  }).join("");
+  let ticks = "";
+  for (let ch = 0; ch <= MAP.chMax; ch += 100) {
+    const p = atCh(ch);
+    const nx = Math.cos(p.ang + Math.PI / 2), ny = Math.sin(p.ang + Math.PI / 2);
+    ticks += '<line x1="' + (p.x + nx * 12) + '" y1="' + (p.y + ny * 12) + '" x2="' + (p.x - nx * 9) + '" y2="' + (p.y - ny * 9) + '" stroke="#6a655c" stroke-width="1.4"/>' +
+      '<text x="' + (p.x - nx * 22) + '" y="' + (p.y - ny * 22 + 4) + '" text-anchor="middle" font-size="11" fill="#4a4438">' + fmtCh(ch) + "</text>";
+  }
+  const stretchSvg = stretches().map(function (st) {
+    const col = statusColor(targetStatus(st.id).kind);
+    const pts = polyPoints(stretchPath(st));
+    return '<g class="hit" data-act="select" data-id="' + esc(st.id) + '" style="cursor:pointer">' +
+      '<polyline points="' + pts + '" fill="none" stroke="transparent" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<polyline points="' + pts + '" fill="none" stroke="' + col + '" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>' +
+      "</g>";
+  }).join("");
+  const objs = pointObjects().map(function (o) {
+    return objectMark(o, statusColor(targetStatus(o.id).kind));
+  }).join("");
+  const pins = state.remarks.map(pinMark).join("");
+  const pending = state.confirmPin
+    ? ('<g>' +
+      '<path d="M' + state.confirmPin.x + " " + (state.confirmPin.y - 26) + ' c8 0 14 6 14 14 0 10-14 22-14 22s-14-12-14-22c0-8 6-14 14-14z" fill="#7a1616" stroke="#fff" stroke-width="2"/>' +
+      '<circle cx="' + state.confirmPin.x + '" cy="' + (state.confirmPin.y - 13) + '" r="4.5" fill="#fff"/>' +
+      "</g>")
+    : "";
+  const gps = fiberAt(state.gpsCh);
+  const accR = Math.max(metersToMap(state.gpsAccM || 8), 18);
+  const gpsSvg = '<g id="gps">' +
+    '<circle class="gps-acc" cx="' + gps.x + '" cy="' + gps.y + '" r="' + accR + '" fill="#1a73e8" fill-opacity="0.16" stroke="#1a73e8" stroke-width="1.2" stroke-opacity="0.5"/>' +
+    '<circle class="gps-dot" cx="' + gps.x + '" cy="' + gps.y + '" r="8" fill="#1a73e8" stroke="#fff" stroke-width="3"/>' +
+    "</g>";
+  const wrap = document.querySelector(".map-wrap");
+  const vw = Math.max(1, (wrap && wrap.clientWidth) ? wrap.clientWidth : 320);
+  const vh = Math.max(1, (wrap && wrap.clientHeight) ? wrap.clientHeight : 240);
+  state.wrapW = vw;
+  state.wrapH = vh;
+  const t = "translate(" + state.tx + " " + state.ty + ") scale(" + state.scale + ")";
+  return '<svg id="ritning" class="map-canvas" viewBox="0 0 ' + vw + " " + vh + '" preserveAspectRatio="xMidYMid meet" width="100%" height="100%" role="img" aria-label="Karta">' +
+    '<rect width="100%" height="100%" fill="#d7e0c8"/>' +
+    '<g id="map-world" transform="' + t + '">' +
+    '<polyline points="' + polyPoints(road) + '" fill="none" stroke="#b7b1a4" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<polyline points="' + polyPoints(road) + '" fill="none" stroke="#9a9588" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<polyline points="' + polyPoints(road) + '" fill="none" stroke="#efeae0" stroke-width="1.4" stroke-dasharray="8 10" stroke-linecap="round"/>' +
+    houses + ticks + stretchSvg + objs + pins + pending + gpsSvg +
+    "</g></svg>";
+}
+
+function topbar(title, sub, back, extra, subAct) {
+  const subHtml = sub
+    ? (subAct
+      ? '<button type="button" class="sub sub-btn" data-act="' + subAct + '">' + esc(sub) + " · Ändra</button>"
+      : '<div class="sub">' + esc(sub) + "</div>")
+    : "";
+  return '<div class="top"><div class="banner">Prototyp – exempeldata</div>' +
+    '<div class="top-row">' +
+    (back ? '<button type="button" class="icon-btn" data-act="back">Tillbaka</button>' : "") +
+    '<div style="flex:1;min-width:0"><h1>' + esc(title) + "</h1>" + subHtml + "</div>" +
+    (extra || "") +
+    "</div></div>";
+}
+
+function viewStart() {
+  const cards = PROJECTS.map(function (p) {
+    return '<button type="button" class="card tap" data-act="open" data-id="' + p.id + '">' +
+      '<div class="row-between"><div><p class="card-title">' + esc(p.name) + "</p>" +
+      '<p class="card-meta">' + esc(p.place) + "<br>" + esc(p.meta) + "</p></div><span class=\"chev\">›</span></div></button>";
+  }).join("");
+  return topbar("Fiberbesiktning") +
+    '<div class="scroll"><h2>Välj projekt</h2>' +
+    '<p class="lead">Välj projekt, sedan vad du besiktigar, och öppna kartan. Där trycker du på skåp, brunnar och noder, eller lägger en anmärkning var som helst på kartan.</p>' +
+    cards +
+    '<p class="lead" style="margin-top:18px">Allt innehåll är exempeldata. Appen fungerar offline, och anmärkningar sparas i telefonen.</p>' +
+    "</div>";
+}
+
+function viewSetup() {
+  const omr = OMRADEN.map(function (o) {
+    return '<button type="button" class="choice' + (state.omrade === o.id ? " on" : "") + '" data-act="omrade" data-id="' + o.id + '">' +
+      esc(o.name) + "<small>" + esc(o.hint) + "</small></button>";
+  }).join("");
+  const typs = '<div class="settings">' + TYPER.map(function (t) {
+    return '<button type="button" class="' + (state.typ === t.id ? "on" : "") + '" data-act="set-typ" data-id="' + t.id + '">' + esc(t.name) + "</button>";
+  }).join("") + "</div>";
+  const etps = '<div class="settings">' + ETAPPER.map(function (e) {
+    return '<button type="button" class="' + (state.etapp === e.id ? "on" : "") + '" data-act="set-etapp" data-id="' + e.id + '">' + esc(e.name) + "</button>";
+  }).join("") + "</div>";
+  const beenOnMap = state.fitted || state.remarks.length || Object.keys(state.answers).length;
+  return topbar(project().name, "Vad ska besiktigas?", true) +
+    '<div class="scroll"><h2>Område</h2>' +
+    '<p class="lead">Välj fiberarbeten, schakt och förläggning, eller båda. Förvalt är båda, så att det går snabbt att komma vidare.</p>' +
+    omr +
+    "<h3>Typ</h3>" + typs +
+    "<h3>Etapp</h3>" + etps +
+    '<div class="btn-row one" style="margin-top:18px"><button type="button" class="btn btn-primary" data-act="open-map">' +
+    (beenOnMap ? "Tillbaka till kartan" : "Öppna kartan") + "</button></div></div>";
+}
+
+function viewMap() {
+  const obj = state.selected ? objById(state.selected) : null;
+  const sheet = state.sheet === "remark" ? viewRemarkForm() : (obj ? viewCheckSheet(obj) : "");
+  const src = state.gpsSource === "real" ? "GPS" : "Demo";
+  const banner = state.placeMode
+    ? '<div class="map-banner">Tryck på kartan för att sätta anmärkningen. <button type="button" data-act="cancel-place" style="color:#fff;text-decoration:underline;font-weight:800">Avbryt</button></div>'
+    : '<div class="gps-chip">' + src + " · sektion " + fmtCh(state.gpsCh) + " · ±" + Math.round(state.gpsAccM || 8) + " m</div>";
+  const listBtn = '<button type="button" class="icon-btn ghost" data-act="go" data-view="overview">Lista</button>';
+  const gpsBar = (state.sheet || state.confirmPin)
+    ? ""
+    : '<div class="gps-bar">' +
+      '<button type="button" class="' + (state.walking ? "on" : "") + '" data-act="toggle-walk">' + (state.walking ? "Stoppa promenad" : "Starta promenad") + "</button>" +
+      '<button type="button" data-act="center-gps">Centrera på mig</button>' +
+      '<button type="button" class="ghost" data-act="try-gps">Använd telefonens GPS</button>' +
+      "</div>";
+  const hint = (!state.sheet && !state.confirmPin && !state.placeMode && !hintSeen())
+    ? '<div class="hint-banner"><p>Tryck på ett skåp, en brunn eller en nod för checklista. Tryck någon annanstans på kartan för att lägga en anmärkning.</p>' +
+      '<button type="button" class="btn btn-primary" data-act="dismiss-hint">Ok, jag förstår</button></div>'
+    : "";
+  const confirm = state.confirmPin
+    ? '<div class="confirm-card"><p><strong>Lägg anmärkning här?</strong><br>' + esc(state.confirmPin.label) + "</p>" +
+      '<div class="btn-row"><button type="button" class="btn btn-secondary" data-act="cancel-confirm">Avbryt</button>' +
+      '<button type="button" class="btn btn-primary" data-act="accept-confirm">Lägg till</button></div></div>'
+    : "";
+  const dock = state.sheet === "remark"
+    ? '<div class="dock"><button type="button" class="fab" data-act="save-remark">Spara anmärkning</button></div>'
+    : '<div class="dock"><button type="button" class="fab" data-act="new-remark"><span>+</span>Anmärkning</button></div>';
+  return topbar(project().name, typSub(), true, listBtn, "edit-scope") +
+    '<div class="map-view">' +
+    '<div class="map-wrap" id="map-canvas">' + mapSvg() + banner +
+    '<div class="map-tools">' +
+    '<button type="button" data-act="zoom-in" aria-label="Zooma in">+</button>' +
+    '<button type="button" data-act="zoom-out" aria-label="Zooma ut">−</button>' +
+    "</div>" +
+    gpsBar + hint + confirm +
+    "</div>" +
+    sheet +
+    dock +
+    (state.toast ? '<div class="toast">' + esc(state.toast) + "</div>" : "") +
+    "</div>";
+}
+
+function viewCheckSheet(obj) {
+  const st = targetStatus(obj.id);
+  const items = itemsFor(obj.type);
+  const bag = state.answers[obj.id] || {};
+  const rows = items.length ? items.map(function (it) {
+    const cur = bag[it.id] || "";
+    return '<div class="check-item"><p>' + esc(it.title) + "</p>" +
+      '<div class="seg-3">' +
+      '<button type="button" class="' + (cur === "ok" ? "on ok" : "") + '" data-act="outcome" data-obj="' + esc(obj.id) + '" data-id="' + it.id + '" data-val="ok">OK</button>' +
+      '<button type="button" class="' + (cur === "bad" ? "on bad" : "") + '" data-act="outcome" data-obj="' + esc(obj.id) + '" data-id="' + it.id + '" data-val="bad">Anmärkning</button>' +
+      '<button type="button" class="' + (cur === "na" ? "on na" : "") + '" data-act="outcome" data-obj="' + esc(obj.id) + '" data-id="' + it.id + '" data-val="na">Ej tillämpligt</button>' +
+      "</div></div>";
+  }).join("") : '<p class="lead">Det här objektet ingår inte i valt område (' + esc(omradeName()) + ").</p>";
+  const place = obj.type === "stracka"
+    ? "Sektion " + fmtCh(obj.from) + "–" + fmtCh(obj.to)
+    : "Sektion " + fmtCh(obj.ch);
+  return '<div class="sheet"><div class="handle"></div>' +
+    '<div class="row-between"><div><h2>' + esc(obj.name) + "</h2>" +
+    '<p class="meta">' + esc(typeName(obj.type)) + " · " + place + ' · <span class="badge ' + st.kind + '">' + esc(st.label) + "</span></p></div>" +
+    '<button type="button" class="icon-btn" data-act="close-sheet" style="color:var(--ink)">Stäng</button></div>' +
+    rows + "</div>";
+}
+
+function viewRemarkForm() {
+  const d = state.draft || {};
+  const fl = d.ch != null ? flanking(d.ch) : null;
+  const place = d.ch != null
+    ? "Sektion " + fmtCh(d.ch) + (fl ? " · mellan " + fl.from.id + " och " + fl.to.id : "")
+    : "Välj läge";
+  const cats = CATS.map(function (c) {
+    return '<button type="button" class="' + (d.category === c.id ? "on" : "") + '" data-act="cat" data-id="' + c.id + '">' + esc(c.name) + "</button>";
+  }).join("");
+  const photo = d.photo
+    ? '<img src="' + d.photo + '" alt="Förhandsvisning av foto">'
+    : '<div class="hint">Ta foto<br><span style="font-weight:500;color:var(--faint);font-size:13px">Öppnar kameran på telefonen</span></div>';
+  return '<div class="sheet"><div class="handle"></div>' +
+    '<div class="row-between"><div><h2>Ny anmärkning</h2><p class="meta">' + esc(place) + "</p></div>" +
+    '<button type="button" class="icon-btn" data-act="close-sheet" style="color:var(--ink)">Stäng</button></div>' +
+    '<div class="cats">' + cats + "</div>" +
+    '<label class="photo-box" id="photo-box">' + photo +
+    '<input type="file" accept="image/*" capture="environment" data-act="photo" aria-label="Ta foto">' +
+    "</label>" +
+    '<div class="field" style="margin-top:12px"><label for="remark-text">Kort beskrivning</label>' +
+    '<textarea id="remark-text" placeholder="Till exempel återställning av infart…">' + esc(d.text || "") + "</textarea></div>" +
+    '<div class="btn-row one">' +
+    '<button type="button" class="btn btn-secondary" data-act="place-map">Eller tryck på kartan för att flytta nålen</button>' +
+    "</div></div>";
+}
+
+function viewOverview() {
+  const objs = allTargets().map(function (o) {
+    const st = targetStatus(o.id);
+    return { o: o, st: st };
+  });
+  const inspected = objs.filter(function (x) { return x.st.kind !== "open"; });
+  const remarks = state.remarks.slice().reverse();
+  const typChips = TYPER.map(function (t) {
+    return '<button type="button" class="' + (state.typ === t.id ? "on" : "") + '" data-act="set-typ" data-id="' + t.id + '">' + esc(t.name) + "</button>";
+  }).join("");
+  const etpChips = ETAPPER.map(function (e) {
+    return '<button type="button" class="' + (state.etapp === e.id ? "on" : "") + '" data-act="set-etapp" data-id="' + e.id + '">' + esc(e.name) + "</button>";
+  }).join("");
+  const remHtml = remarks.length
+    ? remarks.map(function (r) {
+        const fl = r.fromId && r.toId ? "Mellan " + r.fromId + " och " + r.toId : "";
+        const cat = (CATS.find(function (c) { return c.id === r.category; }) || {}).name || "";
+        return '<button type="button" class="list-item" data-act="goto-remark" data-id="' + esc(r.id) + '">' +
+          (r.photo ? '<img src="' + r.photo + '" alt="">' : '<div class="list-thumb"></div>') +
+          "<div><p class=\"card-title\" style=\"font-size:15px\">" + esc(cat || "Anmärkning") + "</p>" +
+          '<p class="card-meta">' + esc(fl) + " · sektion " + fmtCh(r.ch) + "<br>" + esc(r.text || "") + "</p></div></button>";
+      }).join("")
+    : '<p class="lead">Inga anmärkningar ännu.</p>';
+  const objHtml = inspected.length
+    ? inspected.map(function (x) {
+        return '<button type="button" class="list-item" data-act="goto-obj" data-id="' + esc(x.o.id) + '">' +
+          "<div><p class=\"card-title\" style=\"font-size:15px\">" + esc(x.o.name) + ' <span class="badge ' + x.st.kind + '">' + esc(x.st.label) + "</span></p>" +
+          '<p class="card-meta">' + esc(typeName(x.o.type)) + (x.st.total ? " · " + x.st.done + " av " + x.st.total + " punkter" : "") + "</p></div></button>";
+      }).join("")
+    : '<p class="lead">Inget besiktat ännu. Öppna kartan och tryck på ett objekt.</p>';
+  return topbar("Översikt", project().name, true) +
+    '<div class="scroll">' +
+    "<h3>Typ, område och etapp</h3><p class=\"lead\" style=\"margin-top:0\">Samma val som före kartan. Tryck för att ändra.</p>" +
+    '<div class="settings">' + typChips + "</div>" +
+    '<div class="settings">' + OMRADEN.map(function (o) {
+      return '<button type="button" class="' + (state.omrade === o.id ? "on" : "") + '" data-act="omrade" data-id="' + o.id + '">' + esc(o.name) + "</button>";
+    }).join("") + "</div>" +
+    '<div class="settings">' + etpChips + "</div>" +
+    "<h3>Anmärkningar (" + remarks.length + ")</h3>" + remHtml +
+    "<h3>Besiktade objekt (" + inspected.length + ")</h3>" + objHtml +
+    '<div class="btn-row one" style="margin-top:18px"><button type="button" class="btn btn-primary" data-act="go" data-view="protocol">Visa protokoll</button></div>' +
+    "</div>";
+}
+
+function viewProtocol() {
+  const objs = allTargets();
+  const rows = objs.map(function (o) {
+    const st = targetStatus(o.id);
+    const place = o.type === "stracka" ? fmtCh(o.from) + "–" + fmtCh(o.to) : fmtCh(o.ch);
+    return "<tr><td>" + esc(o.name) + "</td><td>" + esc(typeName(o.type)) + "</td><td>" + place + "</td><td>" + esc(st.label) + "</td></tr>";
+  }).join("");
+  const rem = state.remarks.map(function (r) {
+    const fl = r.fromId && r.toId ? "Mellan " + r.fromId + " och " + r.toId : "";
+    const cat = (CATS.find(function (c) { return c.id === r.category; }) || {}).name || "";
+    return "<tr><td>" + esc(cat) + "</td><td>" + fl + "<br>Sektion " + fmtCh(r.ch) + "</td><td>" + esc(r.text || "") + "</td><td>" +
+      (r.photo ? '<img src="' + r.photo + '" alt="Foto">' : "–") + "</td></tr>";
+  }).join("");
+  return topbar("Protokoll", project().name, true) +
+    '<div class="scroll protocol">' +
+    '<p class="banner" style="color:var(--faint);text-transform:uppercase">Prototyp – exempeldata</p>' +
+    "<p><strong>" + esc(project().name) + "</strong><br>" + esc(project().place) + "<br>" +
+    esc(typName()) + " · " + esc(etappName()) + "</p>" +
+    "<h2>Objekt</h2><table><thead><tr><th>Objekt</th><th>Typ</th><th>Sektion</th><th>Status</th></tr></thead><tbody>" + rows + "</tbody></table>" +
+    "<h2>Anmärkningar</h2>" +
+    (state.remarks.length
+      ? "<table><thead><tr><th>Kategori</th><th>Läge</th><th>Beskrivning</th><th>Foto</th></tr></thead><tbody>" + rem + "</tbody></table>"
+      : "<p>Inga anmärkningar.</p>") +
+    '<div class="btn-row no-print"><button type="button" class="btn btn-secondary" data-act="print">Skriv ut / exportera</button><button type="button" class="btn btn-primary" data-act="go" data-view="map">Tillbaka till kartan</button></div>' +
+    "</div>";
+}
+
+function render() {
+  const root = document.getElementById("app");
+  if (state.view === "start") root.innerHTML = viewStart();
+  else if (state.view === "setup") root.innerHTML = viewSetup();
+  else if (state.view === "overview") root.innerHTML = viewOverview();
+  else if (state.view === "protocol") root.innerHTML = viewProtocol();
+  else root.innerHTML = viewMap();
+  if (state.view === "map") {
+    bindMap();
+    requestAnimationFrame(function () {
+      const wrap = document.querySelector(".map-wrap");
+      if (wrap && wrap.clientWidth && !state.fitted) {
+        fitTo(state.gpsCh, wrap.clientHeight < 280 ? 1.15 : 1.7);
+      }
+      syncMapSize();
+    });
+  }
+  const ta = document.getElementById("remark-text");
+  if (ta) {
+    ta.addEventListener("input", function () {
+      if (state.draft) state.draft.text = ta.value;
+    });
+  }
+}
+
+function svgPointFromEvent(e) {
+  const svg = document.getElementById("ritning");
+  if (!svg) return null;
+  const pt = svg.createSVGPoint();
+  pt.x = e.clientX;
+  pt.y = e.clientY;
+  const ctm = svg.getScreenCTM();
+  if (!ctm) return null;
+  const p = pt.matrixTransform(ctm.inverse());
+  return { x: (p.x - state.tx) / state.scale, y: (p.y - state.ty) / state.scale };
+}
+
+function hitPointObject(x, y) {
+  const r = hitRadiusMap();
+  let best = null, bestD = r;
+  pointObjects().forEach(function (o) {
+    const d = Math.hypot(o.x - x, o.y - y);
+    if (d <= bestD) { bestD = d; best = o; }
+  });
+  return best;
+}
+function hitTarget(x, y) {
+  return hitPointObject(x, y);
+}
+function askRemarkAt(x, y) {
+  const c = chFromXY(x, y);
+  const fl = flanking(c.ch);
+  state.confirmPin = {
+    x: x, y: y, ch: c.ch,
+    fromId: fl.from.id, toId: fl.to.id,
+    label: "Sektion " + fmtCh(c.ch) + " · mellan " + fl.from.id + " och " + fl.to.id
+  };
+  state.sheet = null;
+  state.selected = null;
+  render();
+}
+
+function syncMapSize() {
+  const wrap = document.querySelector(".map-wrap");
+  const svg = document.getElementById("ritning");
+  if (!wrap || !svg) return;
+  const w = wrap.clientWidth, hgt = wrap.clientHeight;
+  if (!w || !hgt) return;
+  const prevW = state.wrapW || w, prevH = state.wrapH || hgt;
+  if (prevW !== w || prevH !== hgt) {
+    const gx = (prevW / 2 - state.tx) / state.scale;
+    const gy = (prevH / 2 - state.ty) / state.scale;
+    state.tx = w / 2 - gx * state.scale;
+    state.ty = hgt / 2 - gy * state.scale;
+  }
+  state.wrapW = w;
+  state.wrapH = hgt;
+  svg.setAttribute("viewBox", "0 0 " + w + " " + hgt);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  const g = document.getElementById("map-world");
+  if (g) g.setAttribute("transform", "translate(" + state.tx + " " + state.ty + ") scale(" + state.scale + ")");
+}
+
+function bindMap() {
+  const canvas = document.getElementById("map-canvas");
+  const svg = document.getElementById("ritning");
+  if (!canvas || !svg) return;
+  if (!state.fitted) {
+    const short = (canvas.clientHeight || 400) < 280;
+    fitTo(state.gpsCh, short ? 1.15 : 1.7);
+  }
+  syncMapSize();
+  const pointers = new Map();
+  let start = null;
+  let pinch = null;
+
+  canvas.addEventListener("pointerdown", function (e) {
+    if (e.target.closest && e.target.closest(".map-tools, .map-banner, .gps-chip, .map-legend, .gps-bar, .hint-banner, .confirm-card, .dock, button, a, input, textarea, label")) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    if (pointers.size === 2) {
+      const pts = Array.from(pointers.values());
+      pinch = {
+        dist: Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1,
+        scale: state.scale,
+        cx: (pts[0].x + pts[1].x) / 2,
+        cy: (pts[0].y + pts[1].y) / 2
+      };
+      start = null;
+      return;
+    }
+    start = { x: e.clientX, y: e.clientY, tx: state.tx, ty: state.ty, moved: false, id: e.pointerId };
+  });
+  canvas.addEventListener("pointermove", function (e) {
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pinch && pointers.size >= 2) {
+      const pts = Array.from(pointers.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
+      const target = pinch.scale * (dist / pinch.dist);
+      const factor = target / state.scale;
+      if (factor && isFinite(factor)) zoomAt(pinch.cx, pinch.cy, factor);
+      return;
+    }
+    if (!start || e.pointerId !== start.id) return;
+    const dx = e.clientX - start.x, dy = e.clientY - start.y;
+    if (Math.hypot(dx, dy) > 12) start.moved = true;
+    if (state.placeMode) return;
+    if (start.moved) {
+      state.tx = start.tx + dx;
+      state.ty = start.ty + dy;
+      const g = document.getElementById("map-world");
+      if (g) g.setAttribute("transform", "translate(" + state.tx + " " + state.ty + ") scale(" + state.scale + ")");
+    }
+  });
+  function endPointer(e) {
+    const wasPinch = !!pinch;
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) pinch = null;
+    if (!start || e.pointerId !== start.id) return;
+    const wasMoved = start.moved;
+    start = null;
+    if (wasPinch || (wasMoved && !state.placeMode)) return;
+    const p = svgPointFromEvent(e);
+    if (!p) return;
+    if (state.placeMode) {
+      setDraftAt(p.x, p.y);
+      state.placeMode = false;
+      state.sheet = "remark";
+      render();
+      return;
+    }
+    const hit = e.target.closest && e.target.closest("[data-act='select'], [data-act='select-remark']");
+    if (hit && hit.getAttribute("data-act") === "select-remark") {
+      openRemark(hit.getAttribute("data-id"));
+      return;
+    }
+    const obj = hitPointObject(p.x, p.y) || (hit && hit.getAttribute("data-act") === "select" ? objById(hit.getAttribute("data-id")) : null);
+    if (obj && obj.type !== "stracka") {
+      state.confirmPin = null;
+      state.selected = obj.id;
+      state.sheet = "check";
+      render();
+      return;
+    }
+    askRemarkAt(p.x, p.y);
+  }
+  canvas.addEventListener("pointerup", endPointer);
+  canvas.addEventListener("pointercancel", endPointer);
+  canvas.addEventListener("wheel", function (e) {
+    e.preventDefault();
+    zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.15 : 1 / 1.15);
+  }, { passive: false });
+}
+
+function zoomAt(cx, cy, factor) {
+  const svg = document.getElementById("ritning");
+  if (!svg) return;
+  const pt = svg.createSVGPoint();
+  pt.x = cx; pt.y = cy;
+  const ctm = svg.getScreenCTM();
+  if (!ctm) return;
+  const p = pt.matrixTransform(ctm.inverse());
+  const next = Math.max(0.8, Math.min(4.2, state.scale * factor));
+  const wx = (p.x - state.tx) / state.scale;
+  const wy = (p.y - state.ty) / state.scale;
+  state.scale = next;
+  state.tx = p.x - wx * next;
+  state.ty = p.y - wy * next;
+  const g = document.getElementById("map-world");
+  if (g) g.setAttribute("transform", "translate(" + state.tx + " " + state.ty + ") scale(" + state.scale + ")");
+}
+
+function setDraftAt(x, y) {
+  const c = chFromXY(x, y);
+  const fl = flanking(c.ch);
+  if (!state.draft) state.draft = { text: "", category: "ater", photo: "", photoName: "" };
+  state.draft.x = c.p.x;
+  state.draft.y = c.p.y;
+  state.draft.ch = c.ch;
+  state.draft.fromId = fl.from.id;
+  state.draft.toId = fl.to.id;
+  state.draft.targetId = "ST-" + fl.from.id + "-" + fl.to.id;
+}
+
+function tryRealGps() {
+  if (!navigator.geolocation) {
+    toast("Telefonen lämnar ingen position. Visar demon längs sträckan.");
+    return;
+  }
+  toast("Hämtar position…");
+  navigator.geolocation.getCurrentPosition(function (pos) {
+    state.gpsSource = "real";
+    state.gpsAccM = Math.max(4, pos.coords.accuracy || 8);
+    toast("Ritningen är inte georefererad. Visar läget längs sträckan, med din noggrannhet ±" + Math.round(state.gpsAccM) + " m.");
+    render();
+  }, function () {
+    state.gpsSource = "demo";
+    state.gpsAccM = 8;
+    toast("Kunde inte hämta GPS. Visar simulerad promenad i stället.");
+    render();
+  }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 15000 });
+}
+
+function startRemark(atGps) {
+  const p = fiberAt(state.gpsCh);
+  state.draft = { text: "", category: "ater", photo: "", photoName: "", x: p.x, y: p.y, ch: state.gpsCh };
+  const fl = flanking(state.gpsCh);
+  state.draft.fromId = fl.from.id;
+  state.draft.toId = fl.to.id;
+  state.draft.targetId = "ST-" + fl.from.id + "-" + fl.to.id;
+  state.placeMode = !atGps;
+  state.sheet = atGps ? "remark" : null;
+  state.selected = atGps ? state.draft.targetId : null;
+  render();
+}
+
+function saveRemark() {
+  const d = state.draft;
+  if (!d || d.ch == null) { toast("Välj först ett läge på kartan."); return; }
+  const id = "A-" + Date.now();
+  state.remarks.push({
+    id: id,
+    x: d.x, y: d.y, ch: d.ch,
+    category: d.category || "ovrigt",
+    text: (d.text || "").trim(),
+    photo: d.photo || "",
+    photoName: d.photoName || "",
+    fromId: d.fromId,
+    toId: d.toId,
+    targetId: d.targetId
+  });
+  state.draft = null;
+  state.sheet = null;
+  state.placeMode = false;
+  state.selected = d.targetId;
+  saveProject();
+  toast("Anmärkningen är sparad.");
+  render();
+}
+
+function openRemark(id) {
+  const r = state.remarks.find(function (x) { return x.id === id; });
+  if (!r) return;
+  state.draft = Object.assign({}, r);
+  state.sheet = "remark";
+  state.selected = r.targetId;
+  state.placeMode = false;
+  render();
+}
+
+function readPhoto(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    if (!state.draft) return;
+    state.draft.photo = reader.result;
+    state.draft.photoName = file.name || "foto.jpg";
+    const text = document.getElementById("remark-text");
+    if (text) state.draft.text = text.value;
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+
+let walkTimer = null;
+function tickWalk() {
+  if (!state.walking) return;
+  state.gpsCh = Math.min(MAP.chMax, state.gpsCh + 1.2);
+  if (state.gpsCh >= MAP.chMax) state.walking = false;
+  keepGpsInView();
+  if (state.view === "map" && !state.sheet) {
+    const g = document.getElementById("gps");
+    if (g) {
+      const p = fiberAt(state.gpsCh);
+      g.querySelectorAll("circle").forEach(function (c, i) {
+        c.setAttribute("cx", p.x);
+        c.setAttribute("cy", p.y);
+      });
+    }
+    const chip = document.querySelector(".gps-chip");
+    if (chip) chip.textContent = (state.gpsSource === "real" ? "GPS" : "Demo") + " · sektion " + fmtCh(state.gpsCh) + " · ±" + Math.round(state.gpsAccM || 8) + " m";
+    const world = document.getElementById("map-world");
+    if (world) world.setAttribute("transform", "translate(" + state.tx + " " + state.ty + ") scale(" + state.scale + ")");
+  } else if (state.view === "map") {
+    render();
+  }
+  if (state.walking) walkTimer = setTimeout(tickWalk, 80);
+}
+
+document.getElementById("app").addEventListener("click", function (e) {
+  const t = e.target.closest("[data-act]");
+  if (!t) return;
+  const act = t.getAttribute("data-act");
+  if (act === "photo") return;
+  if (act === "open") { openProject(t.getAttribute("data-id")); return; }
+  if (act === "open-map") { openMap(); return; }
+  if (act === "edit-scope") { state.walking = false; state.view = "setup"; render(); return; }
+  if (act === "omrade") { state.omrade = t.getAttribute("data-id"); saveProject(); render(); return; }
+  if (act === "back") {
+    if (state.view === "map") { state.walking = false; state.view = "setup"; render(); }
+    else if (state.view === "setup") { state.view = "start"; render(); }
+    else { state.view = state.view === "protocol" ? "overview" : "map"; render(); }
+    return;
+  }
+  if (act === "go") { state.view = t.getAttribute("data-view"); state.sheet = null; state.placeMode = false; state.confirmPin = null; render(); return; }
+  if (act === "toggle-walk") {
+    state.walking = !state.walking;
+    state.follow = true;
+    if (state.walking) {
+      if (state.gpsCh >= MAP.chMax) state.gpsCh = 0;
+      tickWalk();
+    }
+    render();
+    return;
+  }
+  if (act === "center-gps") {
+    state.follow = true;
+    fitTo(state.gpsCh, Math.max(state.scale, 1.4));
+    render();
+    return;
+  }
+  if (act === "try-gps") { tryRealGps(); return; }
+  if (act === "dismiss-hint") {
+    try { localStorage.setItem(HINT_KEY, "1"); } catch (err) {}
+    render();
+    return;
+  }
+  if (act === "cancel-confirm") { state.confirmPin = null; render(); return; }
+  if (act === "accept-confirm") {
+    const c = state.confirmPin;
+    if (!c) return;
+    setDraftAt(c.x, c.y);
+    state.draft.x = c.x;
+    state.draft.y = c.y;
+    state.confirmPin = null;
+    state.sheet = "remark";
+    render();
+    return;
+  }
+  if (act === "zoom-in" || act === "zoom-out") {
+    const wrap = document.getElementById("map-canvas");
+    const r = wrap.getBoundingClientRect();
+    zoomAt(r.left + r.width / 2, r.top + r.height / 2, act === "zoom-in" ? 1.2 : 1 / 1.2);
+    return;
+  }
+  if (act === "new-remark") { startRemark(true); return; }
+  if (act === "place-map") {
+    const text = document.getElementById("remark-text");
+    if (text && state.draft) state.draft.text = text.value;
+    state.placeMode = true;
+    state.sheet = null;
+    render();
+    return;
+  }
+  if (act === "cancel-place") { state.placeMode = false; state.sheet = "remark"; render(); return; }
+  if (act === "close-sheet") { state.sheet = null; state.selected = null; state.draft = null; state.placeMode = false; render(); return; }
+  if (act === "cat") {
+    const text = document.getElementById("remark-text");
+    if (text && state.draft) state.draft.text = text.value;
+    if (state.draft) state.draft.category = t.getAttribute("data-id");
+    render();
+    return;
+  }
+  if (act === "save-remark") {
+    const text = document.getElementById("remark-text");
+    if (text && state.draft) state.draft.text = text.value;
+    saveRemark();
+    return;
+  }
+  if (act === "outcome") {
+    const oid = t.getAttribute("data-obj");
+    const iid = t.getAttribute("data-id");
+    const val = t.getAttribute("data-val");
+    if (!state.answers[oid]) state.answers[oid] = {};
+    if (state.answers[oid][iid] === val) delete state.answers[oid][iid];
+    else state.answers[oid][iid] = val;
+    saveProject();
+    render();
+    return;
+  }
+  if (act === "set-typ") { state.typ = t.getAttribute("data-id"); saveProject(); render(); return; }
+  if (act === "set-etapp") { state.etapp = t.getAttribute("data-id"); saveProject(); render(); return; }
+  if (act === "goto-remark") {
+    const r = state.remarks.find(function (x) { return x.id === t.getAttribute("data-id"); });
+    if (!r) return;
+    state.view = "map";
+    state.sheet = null;
+    state.selected = r.targetId;
+    state.fitted = false;
+    state.gpsCh = r.ch;
+    render();
+    requestAnimationFrame(function () { fitTo(r.ch, 2.1); state.sheet = "check"; render(); });
+    return;
+  }
+  if (act === "goto-obj") {
+    const id = t.getAttribute("data-id");
+    const o = objById(id);
+    state.view = "map";
+    state.selected = id;
+    state.sheet = "check";
+    render();
+    requestAnimationFrame(function () { if (o) fitTo(o.ch, 2.1); render(); });
+    return;
+  }
+  if (act === "print") { window.print(); return; }
+});
+
+document.getElementById("app").addEventListener("change", function (e) {
+  const t = e.target;
+  if (t && t.getAttribute("data-act") === "photo" && t.files && t.files[0]) {
+    const text = document.getElementById("remark-text");
+    if (text && state.draft) state.draft.text = text.value;
+    readPhoto(t.files[0]);
+  }
+});
+
+window.addEventListener("resize", function () {
+  if (state.view === "map") syncMapSize();
+});
+render();
+  </script>
+</body>
+</html>
