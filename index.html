@@ -283,7 +283,7 @@ const MAP = {
   h: 340,
   chMax: 850,
   fiberOff: 16,
-  note: "Lokalt ritningsnät (exempel), längdmätning 0/000–0/850."
+  note: "Georefererad mot Höglandsvägen i Högland, Örnsköldsvik. Längdmätning 0/000–0/850."
 };
 const ROAD_PTS = [
   [36, 214], [150, 198], [290, 148], [450, 158], [620, 210], [790, 186], [968, 164]
@@ -369,6 +369,544 @@ function pathLens(pts) {
 }
 const ROAD_LENS = pathLens(ROAD_PTS);
 const ROAD_LEN = ROAD_LENS[ROAD_LENS.length - 1];
+
+const GEO_ROAD = [
+  [18.7435762, 63.3062147],
+  [18.7435001, 63.3062648],
+  [18.7433694, 63.3063580],
+  [18.7429762, 63.3066035],
+  [18.7425680, 63.3068387],
+  [18.7420391, 63.3071244],
+  [18.7412907, 63.3074626],
+  [18.7398425, 63.3081313],
+  [18.7396305, 63.3082349],
+  [18.7391435, 63.3084729],
+  [18.7382457, 63.3088732],
+  [18.7375219, 63.3091960],
+  [18.7374886, 63.3092114],
+  [18.7366831, 63.3095835],
+  [18.7359478, 63.3099645],
+  [18.7357760, 63.3101098],
+  [18.7356798, 63.3102267],
+  [18.7353544, 63.3101879],
+  [18.7353597, 63.3102828],
+  [18.7353671, 63.3103513],
+  [18.7353689, 63.3104545],
+  [18.7353822, 63.3106002],
+  [18.7354168, 63.3108831],
+  [18.7354430, 63.3111214],
+  [18.7354535, 63.3112165],
+  [18.7354738, 63.3114008],
+  [18.7355124, 63.3118250],
+  [18.7355329, 63.3120995],
+  [18.7355413, 63.3123020]
+];
+const GEO = {
+  name: "Höglandsvägen, Högland, Örnsköldsvik",
+  from: "Korsningen Höglandsvägen/Arnäsvägen",
+  to: "Höglandsvägen norrut, cirka 850 m",
+  note: "Schematisk ritning georefererad mot Höglandsvägen i Högland, Örnsköldsviks kommun. Längdmätning 0/000–0/850 följer vägen."
+};
+
+function havM(a, b) {
+  const R = 6371000;
+  const lat1 = a[1] * Math.PI / 180, lat2 = b[1] * Math.PI / 180;
+  const dLat = lat2 - lat1, dLon = (b[0] - a[0]) * Math.PI / 180;
+  const h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+function geoBearing(a, b) {
+  const lat1 = a[1] * Math.PI / 180, lat2 = b[1] * Math.PI / 180;
+  const dLon = (b[0] - a[0]) * Math.PI / 180;
+  return Math.atan2(Math.sin(dLon) * Math.cos(lat2), Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon));
+}
+function destPoint(lat, lon, bearing, distM) {
+  const R = 6371000, d = distM / R;
+  const p1 = lat * Math.PI / 180, l1 = lon * Math.PI / 180;
+  const p2 = Math.asin(Math.sin(p1) * Math.cos(d) + Math.cos(p1) * Math.sin(d) * Math.cos(bearing));
+  const l2 = l1 + Math.atan2(Math.sin(bearing) * Math.sin(d) * Math.cos(p1), Math.cos(d) - Math.sin(p1) * Math.sin(p2));
+  return { lat: p2 * 180 / Math.PI, lon: ((l2 * 180 / Math.PI + 540) % 360) - 180 };
+}
+const GEO_LENS = (function () {
+  const lens = [0];
+  let acc = 0;
+  for (let i = 1; i < GEO_ROAD.length; i++) {
+    acc += havM(GEO_ROAD[i - 1], GEO_ROAD[i]);
+    lens.push(acc);
+  }
+  return lens;
+})();
+const GEO_LEN = GEO_LENS[GEO_LENS.length - 1];
+
+function geoAtDist(dist) {
+  const total = GEO_LEN;
+  const d = Math.max(0, Math.min(total, dist));
+  let i = 1;
+  while (i < GEO_LENS.length && GEO_LENS[i] < d) i += 1;
+  const d0 = GEO_LENS[i - 1], d1 = GEO_LENS[i];
+  const t = d1 === d0 ? 0 : (d - d0) / (d1 - d0);
+  const a = GEO_ROAD[i - 1], b = GEO_ROAD[i];
+  const lon = a[0] + (b[0] - a[0]) * t;
+  const lat = a[1] + (b[1] - a[1]) * t;
+  return { lon: lon, lat: lat, bearing: geoBearing(a, b) };
+}
+function geoAtCh(ch) {
+  return geoAtDist((ch / MAP.chMax) * GEO_LEN);
+}
+function metersPerMap() { return MAP.chMax / ROAD_LEN; }
+function mapRoadOffset(x, y) {
+  let bestCh = 0, bestOff = 0, bestD = Infinity;
+  for (let ch = 0; ch <= MAP.chMax; ch += 1) {
+    const p = atCh(ch);
+    const dx = x - p.x, dy = y - p.y;
+    const d = Math.hypot(dx, dy);
+    if (d < bestD) {
+      bestD = d;
+      bestCh = ch;
+      const nx = Math.cos(p.ang + Math.PI / 2), ny = Math.sin(p.ang + Math.PI / 2);
+      bestOff = dx * nx + dy * ny;
+    }
+  }
+  return { ch: bestCh, off: bestOff };
+}
+function mapXYToLatLon(x, y) {
+  const o = mapRoadOffset(x, y);
+  const g = geoAtCh(o.ch);
+  return destPoint(g.lat, g.lon, g.bearing + Math.PI / 2, o.off * metersPerMap());
+}
+function chOffToLatLon(ch, offMap) {
+  const g = geoAtCh(ch);
+  return destPoint(g.lat, g.lon, g.bearing + Math.PI / 2, (offMap || 0) * metersPerMap());
+}
+function remarkLatLon(r) {
+  if (r && r.lat != null && r.lon != null && isFinite(r.lat) && isFinite(r.lon)) {
+    return { lat: r.lat, lon: r.lon };
+  }
+  if (r && r.x != null && r.y != null) return mapXYToLatLon(r.x, r.y);
+  if (r && r.ch != null) return chOffToLatLon(r.ch, MAP.fiberOff);
+  return geoAtCh(0);
+}
+
+function nextRemarkId() {
+  let max = 0;
+  (state.remarks || []).forEach(function (r) {
+    const m = /^A-(\d+)$/.exec(r.id);
+    if (m) max = Math.max(max, parseInt(m[1], 10));
+  });
+  const n = max + 1;
+  return "A-" + (n < 10 ? "0" + n : String(n));
+}
+function ensureRemarks() {
+  state.remarks = (state.remarks || []).map(function (r, i) {
+    const copy = Object.assign({}, r);
+    if (!/^A-\d+$/.test(copy.id || "")) {
+      const n = i + 1;
+      copy.id = "A-" + (n < 10 ? "0" + n : String(n));
+    }
+    if (!copy.createdAt) copy.createdAt = Date.now();
+    if (copy.lat == null || copy.lon == null) {
+      const ll = remarkLatLon(copy);
+      copy.lat = ll.lat;
+      copy.lon = ll.lon;
+    }
+    if (!copy.status) copy.status = "Registrerad";
+    return copy;
+  });
+}
+function catName(id) {
+  const c = CATS.find(function (x) { return x.id === id; });
+  return c ? c.name : (id || "");
+}
+function remarkTitle(r) {
+  return (r.id || "") + " · " + (catName(r.category) || "Anmärkning");
+}
+function formatWhen(ts) {
+  const d = ts ? new Date(ts) : new Date();
+  try {
+    return new Intl.DateTimeFormat("sv-SE", {
+      timeZone: "Europe/Stockholm",
+      year: "numeric", month: "short", day: "numeric",
+      hour: "2-digit", minute: "2-digit"
+    }).format(d);
+  } catch (e) {
+    return d.toISOString();
+  }
+}
+function isoWhen(ts) {
+  return (ts ? new Date(ts) : new Date()).toISOString();
+}
+function todayStamp() {
+  const p = new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Europe/Stockholm", year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(new Date());
+  const g = {};
+  p.forEach(function (x) { g[x.type] = x.value; });
+  return g.year + "-" + g.month + "-" + g.day;
+}
+function projectSlug() {
+  return String((project() && project().id) || "projekt").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+}
+function exportBasename() {
+  return "fiberbesiktning-" + projectSlug() + "-" + todayStamp();
+}
+function slugPart(s) {
+  return String(s || "")
+    .replace(/[ÅÄÆåäæ]/g, function (ch) { return ch === ch.toUpperCase() ? "A" : "a"; })
+    .replace(/[ÖØöø]/g, function (ch) { return ch === ch.toUpperCase() ? "O" : "o"; })
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Za-z0-9]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+function remarkFileBase(r) {
+  const cat = slugPart(catName(r.category));
+  const txt = slugPart((r.text || "").slice(0, 48));
+  let mid = cat;
+  if (txt) {
+    mid = (cat && txt.toLowerCase().indexOf(cat.toLowerCase()) === 0) ? txt : [cat, txt].filter(Boolean).join("-");
+  }
+  const fl = (r.fromId && r.toId) ? (r.fromId + "-" + r.toId) : "";
+  return [r.id, mid, fl].filter(Boolean).join("_") || (r.id || "anmarkning");
+}
+function photoExtFromData(data, fallbackName) {
+  const m = /^data:([^;,]+)/.exec(data || "");
+  const typ = (m && m[1] || "").toLowerCase();
+  if (typ.indexOf("png") >= 0) return "png";
+  if (typ.indexOf("webp") >= 0) return "webp";
+  if (typ.indexOf("gif") >= 0) return "gif";
+  if (typ.indexOf("jpeg") >= 0 || typ.indexOf("jpg") >= 0) return "jpg";
+  const n = (fallbackName || "").toLowerCase();
+  const d = n.lastIndexOf(".");
+  if (d >= 0) {
+    const e = n.slice(d + 1).replace(/[^a-z0-9]/g, "");
+    if (e) return e === "jpeg" ? "jpg" : e;
+  }
+  return "jpg";
+}
+function remarkPhotoList(r) {
+  const list = [];
+  if (r.photos && r.photos.length) {
+    r.photos.forEach(function (p) {
+      if (p && (p.data || p.photo)) list.push({ data: p.data || p.photo, name: p.name || p.photoName || "" });
+    });
+  } else if (r.photo) {
+    list.push({ data: r.photo, name: r.photoName || "" });
+  }
+  return list;
+}
+function remarkPhotoFiles(r) {
+  const list = remarkPhotoList(r);
+  const base = remarkFileBase(r);
+  return list.map(function (p, i) {
+    const ext = photoExtFromData(p.data, p.name);
+    const name = list.length > 1 ? (base + "_" + (i + 1) + "." + ext) : (base + "." + ext);
+    return { name: name, dataUrl: p.data };
+  });
+}
+
+const CRC32_TAB = (function () {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+function crc32(u8) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < u8.length; i++) c = CRC32_TAB[(c ^ u8[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+function concatU8(parts) {
+  let n = 0;
+  parts.forEach(function (p) { n += p.length; });
+  const out = new Uint8Array(n);
+  let o = 0;
+  parts.forEach(function (p) { out.set(p, o); o += p.length; });
+  return out;
+}
+function u16le(n) { return new Uint8Array([n & 255, (n >>> 8) & 255]); }
+function u32le(n) { return new Uint8Array([n & 255, (n >>> 8) & 255, (n >>> 16) & 255, (n >>> 24) & 255]); }
+function dosDateTime(d) {
+  const dt = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+  const tm = (d.getHours() << 11) | (d.getMinutes() << 5) | Math.floor(d.getSeconds() / 2);
+  return { dt: dt, tm: tm };
+}
+function zipStore(files) {
+  const enc = new TextEncoder();
+  const now = dosDateTime(new Date());
+  const locals = [];
+  const centrals = [];
+  let offset = 0;
+  files.forEach(function (f) {
+    const name = enc.encode(f.name);
+    const data = f.data;
+    const crc = crc32(data);
+    const gp = 0x0800;
+    const local = concatU8([
+      u32le(0x04034b50), u16le(20), u16le(gp), u16le(0),
+      u16le(now.tm), u16le(now.dt), u32le(crc), u32le(data.length), u32le(data.length),
+      u16le(name.length), u16le(0), name, data
+    ]);
+    const central = concatU8([
+      u32le(0x02014b50), u16le(0x0314), u16le(20), u16le(gp), u16le(0),
+      u16le(now.tm), u16le(now.dt), u32le(crc), u32le(data.length), u32le(data.length),
+      u16le(name.length), u16le(0), u16le(0), u16le(0), u16le(0), u32le(0x81A40000), u32le(offset), name
+    ]);
+    locals.push(local);
+    centrals.push(central);
+    offset += local.length;
+  });
+  const centralBuf = concatU8(centrals);
+  const eocd = concatU8([
+    u32le(0x06054b50), u16le(0), u16le(0), u16le(files.length), u16le(files.length),
+    u32le(centralBuf.length), u32le(offset), u16le(0)
+  ]);
+  return concatU8(locals.concat([centralBuf, eocd]));
+}
+function utf8Bytes(s) { return new TextEncoder().encode(s); }
+function dataUrlToBytes(url) {
+  if (!url) return new Uint8Array(0);
+  const comma = url.indexOf(",");
+  if (comma < 0) return utf8Bytes(url);
+  const meta = url.slice(0, comma);
+  const body = url.slice(comma + 1);
+  if (/;base64/i.test(meta)) {
+    const bin = atob(body.replace(/\s/g, ""));
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  return utf8Bytes(decodeURIComponent(body));
+}
+
+function xmlEsc(s) {
+  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function kmlCoord(ll) {
+  return Number(ll.lon).toFixed(7) + "," + Number(ll.lat).toFixed(7) + ",0";
+}
+const CAT_COLORS = { ater: "ff2a6abd", infart: "ff1a3d9c", schakt: "ff00a5d4", ovrigt: "ff5a5a5a" };
+const STATUS_COLORS = { ok: "ff2f7d4a", bad: "ff2a2aad", open: "ff6a655c", na: "ff8a7c64" };
+
+function buildKml() {
+  const pr = project();
+  const styles = [];
+  Object.keys(CAT_COLORS).forEach(function (id) {
+    const col = CAT_COLORS[id];
+    styles.push(
+      '<Style id="cat-' + id + '"><IconStyle><color>' + col + '</color><scale>1.1</scale>' +
+      '<Icon><href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon></IconStyle>' +
+      "<LabelStyle><scale>0.9</scale></LabelStyle></Style>"
+    );
+  });
+  Object.keys(STATUS_COLORS).forEach(function (id) {
+    styles.push(
+      '<Style id="obj-' + id + '"><IconStyle><color>' + STATUS_COLORS[id] + '</color><scale>0.95</scale>' +
+      '<Icon><href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href></Icon></IconStyle></Style>'
+    );
+  });
+  styles.push(
+    '<Style id="fiber-line"><LineStyle><color>ff3d7a2a</color><width>4</width></LineStyle></Style>'
+  );
+  const remMarks = state.remarks.map(function (r) {
+    const ll = remarkLatLon(r);
+    const files = remarkPhotoFiles(r);
+    const imgs = files.map(function (f) {
+      return '<div><img src="files/' + xmlEsc(f.name) + '" alt="' + xmlEsc(r.id) + '" width="320"/></div>';
+    }).join("");
+    const desc =
+      "<table>" +
+      "<tr><td>ID</td><td>" + xmlEsc(r.id) + "</td></tr>" +
+      "<tr><td>Kategori</td><td>" + xmlEsc(catName(r.category)) + "</td></tr>" +
+      "<tr><td>Text</td><td>" + xmlEsc(r.text || "") + "</td></tr>" +
+      "<tr><td>Sträcka</td><td>" + xmlEsc((r.fromId && r.toId ? r.fromId + "–" + r.toId : "") + " · sektion " + fmtCh(r.ch)) + "</td></tr>" +
+      "<tr><td>Besiktningstyp</td><td>" + xmlEsc(typName()) + "</td></tr>" +
+      "<tr><td>Område</td><td>" + xmlEsc(omradeName()) + "</td></tr>" +
+      "<tr><td>Etapp</td><td>" + xmlEsc(etappName()) + "</td></tr>" +
+      "<tr><td>Datum/tid</td><td>" + xmlEsc(formatWhen(r.createdAt)) + "</td></tr>" +
+      "<tr><td>Status</td><td>" + xmlEsc(r.status || "Registrerad") + "</td></tr>" +
+      "</table>" + imgs;
+    return "<Placemark>" +
+      "<name>" + xmlEsc(remarkTitle(r)) + "</name>" +
+      "<styleUrl>#cat-" + xmlEsc(r.category || "ovrigt") + "</styleUrl>" +
+      "<TimeStamp><when>" + xmlEsc(isoWhen(r.createdAt)) + "</when></TimeStamp>" +
+      "<description><![CDATA[" + desc + "]]></description>" +
+      "<Point><coordinates>" + kmlCoord(ll) + "</coordinates></Point>" +
+      "</Placemark>";
+  }).join("\n");
+  const objMarks = pointObjects().filter(function (o) {
+    return o.type === "brunn" || o.type === "skap" || o.type === "nod";
+  }).map(function (o) {
+    const st = targetStatus(o.id);
+    const ll = chOffToLatLon(o.ch, MAP.fiberOff);
+    const desc = "<table>" +
+      "<tr><td>Objekt</td><td>" + xmlEsc(o.name) + "</td></tr>" +
+      "<tr><td>Typ</td><td>" + xmlEsc(typeName(o.type)) + "</td></tr>" +
+      "<tr><td>Sektion</td><td>" + xmlEsc(fmtCh(o.ch)) + "</td></tr>" +
+      "<tr><td>Status</td><td>" + xmlEsc(st.label) + "</td></tr>" +
+      "</table>";
+    return "<Placemark>" +
+      "<name>" + xmlEsc(o.id + " · " + o.name) + "</name>" +
+      "<styleUrl>#obj-" + xmlEsc(st.kind) + "</styleUrl>" +
+      "<description><![CDATA[" + desc + "]]></description>" +
+      "<Point><coordinates>" + kmlCoord(ll) + "</coordinates></Point>" +
+      "</Placemark>";
+  }).join("\n");
+  const lineCoords = [];
+  for (let ch = 0; ch <= MAP.chMax; ch += 10) lineCoords.push(kmlCoord(chOffToLatLon(ch, MAP.fiberOff)));
+  if (MAP.chMax % 10) lineCoords.push(kmlCoord(chOffToLatLon(MAP.chMax, MAP.fiberOff)));
+  const line = "<Placemark><name>Fibersträcka 0/000–0/850</name><styleUrl>#fiber-line</styleUrl>" +
+    "<description><![CDATA[" + xmlEsc(GEO.name) + ". " + xmlEsc(GEO.note) + "]]></description>" +
+    "<LineString><tessellate>1</tessellate><coordinates>\n" + lineCoords.join("\n") + "\n</coordinates></LineString></Placemark>";
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<kml xmlns="http://www.opengis.net/kml/2.2">\n' +
+    "<Document>\n" +
+    "<name>" + xmlEsc("Fiberbesiktning – " + pr.name) + "</name>\n" +
+    "<description><![CDATA[" + xmlEsc("Prototyp – exempeldata. " + GEO.note) + "]]></description>\n" +
+    styles.join("\n") + "\n" +
+    '<Folder><name>Anmärkningar</name>\n' + remMarks + "\n</Folder>\n" +
+    '<Folder><name>Objekt</name>\n' + objMarks + "\n</Folder>\n" +
+    line + "\n" +
+    "</Document></kml>";
+}
+
+function buildKmzBytes() {
+  const files = [{ name: "doc.kml", data: utf8Bytes(buildKml()) }];
+  state.remarks.forEach(function (r) {
+    remarkPhotoFiles(r).forEach(function (f) {
+      files.push({ name: "files/" + f.name, data: dataUrlToBytes(f.dataUrl) });
+    });
+  });
+  return zipStore(files);
+}
+
+function csvEsc(s) {
+  const t = String(s == null ? "" : s);
+  if (/[",\n\r]/.test(t)) return '"' + t.replace(/"/g, '""') + '"';
+  return t;
+}
+function buildRemarksCsv() {
+  const headers = ["ID", "Kategori", "Text", "Sektion", "Fran", "Till", "Typ", "Omrade", "Etapp", "Lat", "Lon", "Status", "Tid", "Foton"];
+  const rows = [headers.join(",")];
+  state.remarks.forEach(function (r) {
+    const ll = remarkLatLon(r);
+    const fotos = remarkPhotoFiles(r).map(function (f) { return f.name; }).join("; ");
+    rows.push([
+      r.id, catName(r.category), r.text || "", fmtCh(r.ch), r.fromId || "", r.toId || "",
+      typName(), omradeName(), etappName(),
+      Number(ll.lat).toFixed(7), Number(ll.lon).toFixed(7),
+      r.status || "Registrerad", formatWhen(r.createdAt), fotos
+    ].map(csvEsc).join(","));
+  });
+  return "\uFEFF" + rows.join("\r\n") + "\r\n";
+}
+
+function buildProtocolHtml(photoDir) {
+  const pr = project();
+  const dir = photoDir || "foton/";
+  const objRows = allTargets().map(function (o) {
+    const st = targetStatus(o.id);
+    const place = o.type === "stracka" ? fmtCh(o.from) + "–" + fmtCh(o.to) : fmtCh(o.ch);
+    return "<tr><td>" + xmlEsc(o.id) + "</td><td>" + xmlEsc(o.name) + "</td><td>" + xmlEsc(typeName(o.type)) + "</td><td>" + xmlEsc(place) + "</td><td>" + xmlEsc(st.label) + "</td></tr>";
+  }).join("");
+  const remBlocks = state.remarks.length ? state.remarks.map(function (r) {
+    const fl = r.fromId && r.toId ? r.fromId + "–" + r.toId : "";
+    const imgs = remarkPhotoFiles(r).map(function (f) {
+      return '<figure><img src="' + xmlEsc(dir + f.name) + '" alt="' + xmlEsc(r.id) + '"><figcaption>' + xmlEsc(f.name) + "</figcaption></figure>";
+    }).join("");
+    return '<article class="remark">' +
+      "<h3>" + xmlEsc(remarkTitle(r)) + "</h3>" +
+      "<p><strong>Sträcka:</strong> " + xmlEsc(fl) + " · sektion " + xmlEsc(fmtCh(r.ch)) + "<br>" +
+      "<strong>Status:</strong> " + xmlEsc(r.status || "Registrerad") + " · " +
+      "<strong>Tid:</strong> " + xmlEsc(formatWhen(r.createdAt)) + "</p>" +
+      "<p>" + xmlEsc(r.text || "") + "</p>" + imgs + "</article>";
+  }).join("\n") : "<p>Inga anmärkningar.</p>";
+  return "<!DOCTYPE html>\n<html lang=\"sv\"><head><meta charset=\"UTF-8\">" +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    "<title>Protokoll – " + xmlEsc(pr.name) + "</title>" +
+    "<style>" +
+    "body{font-family:Georgia,serif;color:#141714;background:#f7f3ea;margin:0;padding:24px;line-height:1.45}" +
+    "h1,h2,h3{font-family:system-ui,sans-serif}h1{font-size:1.6rem;margin:0 0 8px}" +
+    ".banner{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#6a655c;margin:0 0 16px}" +
+    "table{border-collapse:collapse;width:100%;background:#fff;margin:12px 0 24px}" +
+    "th,td{border:1px solid #d9d3c6;padding:8px 10px;text-align:left;font-size:14px}" +
+    "th{background:#ece6d8;font-family:system-ui,sans-serif}" +
+    "figure{margin:12px 0}img{max-width:100%;height:auto;border:1px solid #d9d3c6}" +
+    "figcaption{font-size:12px;color:#6a655c}" +
+    ".remark{background:#fff;border:1px solid #d9d3c6;border-radius:8px;padding:16px;margin:0 0 16px}" +
+    "@media print{body{background:#fff;padding:12mm} .remark{break-inside:avoid}}" +
+    "</style></head><body>" +
+    '<p class="banner">Prototyp – exempeldata</p>' +
+    "<h1>Besiktningsprotokoll</h1>" +
+    "<p><strong>" + xmlEsc(pr.name) + "</strong><br>" + xmlEsc(pr.place) + "<br>" +
+    xmlEsc(typName()) + " · " + xmlEsc(omradeName()) + " · " + xmlEsc(etappName()) + "<br>" +
+    "Upprättat " + xmlEsc(formatWhen(Date.now())) + "</p>" +
+    "<h2>Objekt</h2><table><thead><tr><th>ID</th><th>Objekt</th><th>Typ</th><th>Sektion</th><th>Status</th></tr></thead><tbody>" +
+    objRows + "</tbody></table>" +
+    "<h2>Anmärkningar</h2>" + remBlocks +
+    "</body></html>";
+}
+
+function buildProtocolZipBytes() {
+  const files = [
+    { name: "protokoll.html", data: utf8Bytes(buildProtocolHtml("foton/")) },
+    { name: "anmarkningar.csv", data: utf8Bytes(buildRemarksCsv()) }
+  ];
+  state.remarks.forEach(function (r) {
+    remarkPhotoFiles(r).forEach(function (f) {
+      files.push({ name: "foton/" + f.name, data: dataUrlToBytes(f.dataUrl) });
+    });
+  });
+  return zipStore(files);
+}
+
+function fallbackDownload(blob, filename) {
+  const a = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = filename;
+  a.rel = "noopener";
+  a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function () {
+    a.remove();
+    URL.revokeObjectURL(url);
+  }, 2000);
+}
+function deliverFile(blob, filename, mime) {
+  let file = null;
+  try { file = new File([blob], filename, { type: mime }); } catch (err) { file = null; }
+  if (file && navigator.canShare) {
+    try {
+      if (navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], title: filename, text: "Fiberbesiktning" }).catch(function (err) {
+          if (err && err.name === "AbortError") return;
+          fallbackDownload(blob, filename);
+        });
+        return;
+      }
+    } catch (err) {}
+  }
+  fallbackDownload(blob, filename);
+}
+function exportKmz() {
+  const bytes = buildKmzBytes();
+  const name = exportBasename() + ".kmz";
+  const blob = new Blob([bytes], { type: "application/vnd.google-earth.kmz" });
+  deliverFile(blob, name, "application/vnd.google-earth.kmz");
+  toast("KMZ skapad: " + name);
+}
+function exportProtocolZip() {
+  const bytes = buildProtocolZipBytes();
+  const name = exportBasename() + "-protokoll.zip";
+  const blob = new Blob([bytes], { type: "application/zip" });
+  deliverFile(blob, name, "application/zip");
+  toast("Protokollpaket skapat: " + name);
+}
+
 
 function atDist(pts, lens, dist) {
   const total = lens[lens.length - 1];
@@ -501,6 +1039,8 @@ const state = {
   fitted: false,
   gpsCh: 80,
   gpsAccM: 8,
+  gpsLat: null,
+  gpsLon: null,
   gpsSource: "demo",
   walking: false,
   follow: true,
@@ -548,10 +1088,13 @@ function openProject(id) {
   state.draft = null;
   state.gpsCh = 80;
   state.gpsAccM = 8;
+  state.gpsLat = null;
+  state.gpsLon = null;
   state.gpsSource = "demo";
   state.walking = false;
   state.follow = true;
   state.fitted = false;
+  ensureRemarks();
   state.view = "setup";
   render();
 }
@@ -691,6 +1234,7 @@ function pinMark(r) {
     '<circle cx="' + x + '" cy="' + y + '" r="22" fill="transparent"/>' +
     '<path d="M' + x + " " + (y - 26) + ' c8 0 14 6 14 14 0 10-14 22-14 22s-14-12-14-22c0-8 6-14 14-14z" fill="#7a1616" stroke="#fff" stroke-width="2"/>' +
     '<circle cx="' + x + '" cy="' + (y - 13) + '" r="4.5" fill="#fff"/>' +
+    '<text x="' + x + '" y="' + (y - 32) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#7a1616">' + esc(r.id || "") + "</text>" +
     "</g>";
 }
 
@@ -878,7 +1422,7 @@ function viewRemarkForm() {
     ? '<img src="' + d.photo + '" alt="Förhandsvisning av foto">'
     : '<div class="hint">Ta foto<br><span style="font-weight:500;color:var(--faint);font-size:13px">Öppnar kameran på telefonen</span></div>';
   return '<div class="sheet"><div class="handle"></div>' +
-    '<div class="row-between"><div><h2>Ny anmärkning</h2><p class="meta">' + esc(place) + "</p></div>" +
+    '<div class="row-between"><div><h2>' + esc(d.id || "Ny anmärkning") + '</h2><p class="meta">' + esc(place) + "</p></div>" +
     '<button type="button" class="icon-btn" data-act="close-sheet" style="color:var(--ink)">Stäng</button></div>' +
     '<div class="cats">' + cats + "</div>" +
     '<label class="photo-box" id="photo-box">' + photo +
@@ -910,7 +1454,7 @@ function viewOverview() {
         const cat = (CATS.find(function (c) { return c.id === r.category; }) || {}).name || "";
         return '<button type="button" class="list-item" data-act="goto-remark" data-id="' + esc(r.id) + '">' +
           (r.photo ? '<img src="' + r.photo + '" alt="">' : '<div class="list-thumb"></div>') +
-          "<div><p class=\"card-title\" style=\"font-size:15px\">" + esc(cat || "Anmärkning") + "</p>" +
+          "<div><p class=\"card-title\" style=\"font-size:15px\">" + esc(r.id ? r.id + " · " : "") + esc(cat || "Anmärkning") + "</p>" +
           '<p class="card-meta">' + esc(fl) + " · sektion " + fmtCh(r.ch) + "<br>" + esc(r.text || "") + "</p></div></button>";
       }).join("")
     : '<p class="lead">Inga anmärkningar ännu.</p>';
@@ -932,6 +1476,8 @@ function viewOverview() {
     "<h3>Anmärkningar (" + remarks.length + ")</h3>" + remHtml +
     "<h3>Besiktade objekt (" + inspected.length + ")</h3>" + objHtml +
     '<div class="btn-row one" style="margin-top:18px"><button type="button" class="btn btn-primary" data-act="go" data-view="protocol">Visa protokoll</button></div>' +
+    '<div class="btn-row one"><button type="button" class="btn btn-secondary" data-act="export-kmz">Exportera KMZ (Google Earth)</button></div>' +
+    '<div class="btn-row one"><button type="button" class="btn btn-secondary" data-act="export-protocol-zip">Ladda ned protokoll med foton</button></div>' +
     "</div>";
 }
 
@@ -945,8 +1491,8 @@ function viewProtocol() {
   const rem = state.remarks.map(function (r) {
     const fl = r.fromId && r.toId ? "Mellan " + r.fromId + " och " + r.toId : "";
     const cat = (CATS.find(function (c) { return c.id === r.category; }) || {}).name || "";
-    return "<tr><td>" + esc(cat) + "</td><td>" + fl + "<br>Sektion " + fmtCh(r.ch) + "</td><td>" + esc(r.text || "") + "</td><td>" +
-      (r.photo ? '<img src="' + r.photo + '" alt="Foto">' : "–") + "</td></tr>";
+    return "<tr><td>" + esc(r.id || "") + "</td><td>" + esc(cat) + "</td><td>" + fl + "<br>Sektion " + fmtCh(r.ch) + "</td><td>" + esc(r.text || "") + "</td><td>" +
+      (r.photo ? '<img src="' + r.photo + '" alt="Foto till ' + esc(r.id || "") + '">' : "–") + "</td></tr>";
   }).join("");
   return topbar("Protokoll", project().name, true) +
     '<div class="scroll protocol">' +
@@ -956,9 +1502,12 @@ function viewProtocol() {
     "<h2>Objekt</h2><table><thead><tr><th>Objekt</th><th>Typ</th><th>Sektion</th><th>Status</th></tr></thead><tbody>" + rows + "</tbody></table>" +
     "<h2>Anmärkningar</h2>" +
     (state.remarks.length
-      ? "<table><thead><tr><th>Kategori</th><th>Läge</th><th>Beskrivning</th><th>Foto</th></tr></thead><tbody>" + rem + "</tbody></table>"
+      ? "<table><thead><tr><th>ID</th><th>Kategori</th><th>Läge</th><th>Beskrivning</th><th>Foto</th></tr></thead><tbody>" + rem + "</tbody></table>"
       : "<p>Inga anmärkningar.</p>") +
-    '<div class="btn-row no-print"><button type="button" class="btn btn-secondary" data-act="print">Skriv ut / exportera</button><button type="button" class="btn btn-primary" data-act="go" data-view="map">Tillbaka till kartan</button></div>' +
+    '<div class="btn-row no-print"><button type="button" class="btn btn-secondary" data-act="print">Skriv ut / exportera</button></div>' +
+    '<div class="btn-row no-print"><button type="button" class="btn btn-secondary" data-act="export-kmz">Exportera KMZ (Google Earth)</button></div>' +
+    '<div class="btn-row no-print"><button type="button" class="btn btn-secondary" data-act="export-protocol-zip">Ladda ned protokoll med foton</button></div>' +
+    '<div class="btn-row no-print"><button type="button" class="btn btn-primary" data-act="go" data-view="map">Tillbaka till kartan</button></div>' +
     "</div>";
 }
 
@@ -1158,12 +1707,15 @@ function setDraftAt(x, y) {
   const c = chFromXY(x, y);
   const fl = flanking(c.ch);
   if (!state.draft) state.draft = { text: "", category: "ater", photo: "", photoName: "" };
-  state.draft.x = c.p.x;
-  state.draft.y = c.p.y;
+  state.draft.x = x;
+  state.draft.y = y;
   state.draft.ch = c.ch;
   state.draft.fromId = fl.from.id;
   state.draft.toId = fl.to.id;
   state.draft.targetId = "ST-" + fl.from.id + "-" + fl.to.id;
+  const ll = mapXYToLatLon(x, y);
+  state.draft.lat = ll.lat;
+  state.draft.lon = ll.lon;
 }
 
 function tryRealGps() {
@@ -1175,11 +1727,15 @@ function tryRealGps() {
   navigator.geolocation.getCurrentPosition(function (pos) {
     state.gpsSource = "real";
     state.gpsAccM = Math.max(4, pos.coords.accuracy || 8);
-    toast("Ritningen är inte georefererad. Visar läget längs sträckan, med din noggrannhet ±" + Math.round(state.gpsAccM) + " m.");
+    state.gpsLat = pos.coords.latitude;
+    state.gpsLon = pos.coords.longitude;
+    toast("Riktig position sparas i anmärkningar och KMZ. Den blå pricken på ritningen följer fortfarande sträckan längs Höglandsvägen. ±" + Math.round(state.gpsAccM) + " m.");
     render();
   }, function () {
     state.gpsSource = "demo";
     state.gpsAccM = 8;
+    state.gpsLat = null;
+    state.gpsLon = null;
     toast("Kunde inte hämta GPS. Visar simulerad promenad i stället.");
     render();
   }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 15000 });
@@ -1192,6 +1748,14 @@ function startRemark(atGps) {
   state.draft.fromId = fl.from.id;
   state.draft.toId = fl.to.id;
   state.draft.targetId = "ST-" + fl.from.id + "-" + fl.to.id;
+  if (atGps && state.gpsSource === "real" && state.gpsLat != null && state.gpsLon != null) {
+    state.draft.lat = state.gpsLat;
+    state.draft.lon = state.gpsLon;
+  } else {
+    const ll = mapXYToLatLon(p.x, p.y);
+    state.draft.lat = ll.lat;
+    state.draft.lon = ll.lon;
+  }
   state.placeMode = !atGps;
   state.sheet = atGps ? "remark" : null;
   state.selected = atGps ? state.draft.targetId : null;
@@ -1201,24 +1765,32 @@ function startRemark(atGps) {
 function saveRemark() {
   const d = state.draft;
   if (!d || d.ch == null) { toast("Välj först ett läge på kartan."); return; }
-  const id = "A-" + Date.now();
-  state.remarks.push({
-    id: id,
+  const ll = (d.lat != null && d.lon != null) ? { lat: d.lat, lon: d.lon } : mapXYToLatLon(d.x, d.y);
+  const rec = {
+    id: d.id && /^A-\d+$/.test(d.id) ? d.id : nextRemarkId(),
     x: d.x, y: d.y, ch: d.ch,
+    lat: ll.lat,
+    lon: ll.lon,
     category: d.category || "ovrigt",
     text: (d.text || "").trim(),
     photo: d.photo || "",
     photoName: d.photoName || "",
+    photos: d.photos || undefined,
     fromId: d.fromId,
     toId: d.toId,
-    targetId: d.targetId
-  });
+    targetId: d.targetId,
+    status: d.status || "Registrerad",
+    createdAt: d.createdAt || Date.now()
+  };
+  const existing = state.remarks.findIndex(function (x) { return x.id === rec.id; });
+  if (existing >= 0) state.remarks[existing] = rec;
+  else state.remarks.push(rec);
   state.draft = null;
   state.sheet = null;
   state.placeMode = false;
   state.selected = d.targetId;
   saveProject();
-  toast("Anmärkningen är sparad.");
+  toast("Anmärkningen " + rec.id + " är sparad.");
   render();
 }
 
@@ -1387,6 +1959,8 @@ document.getElementById("app").addEventListener("click", function (e) {
     return;
   }
   if (act === "print") { window.print(); return; }
+  if (act === "export-kmz") { exportKmz(); return; }
+  if (act === "export-protocol-zip") { exportProtocolZip(); return; }
 });
 
 document.getElementById("app").addEventListener("change", function (e) {
