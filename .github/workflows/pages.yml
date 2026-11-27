@@ -25,6 +25,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Konfigurera Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Ladda upp sajten
         uses: actions/upload-pages-artifact@v3
         with:
